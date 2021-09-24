@@ -29,16 +29,7 @@ export class NavComponent implements OnInit {
     subs: Subscription[] = [];
     //
 
-    nav = {
-        links:{
-            items:["Home","Categories","Games","Contact Us"]
-            .map((x:any,i)=>{
-                return {
-                    text:x
-                }
-            })
-        }
-    }
+
 
     constructor(
         private ref: ChangeDetectorRef,

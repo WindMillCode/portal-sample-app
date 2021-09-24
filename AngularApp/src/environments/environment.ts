@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    startURL:"/cart",
+    startURL:"/shop",
     backend:{
         url: "http://127.0.0.1:3005",
     },

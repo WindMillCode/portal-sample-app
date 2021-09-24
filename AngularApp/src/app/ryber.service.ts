@@ -28,7 +28,8 @@ export class RyberService {
             items:["Hot deals","Store","Cart","Checkout"]
             .map((x:any,i)=>{
                 return {
-                    text:x
+                    text:x,
+                    routerLink:["/deals","/shop","/cart/","/checkout"][i]
                 }
             })
         },
@@ -73,9 +74,18 @@ export class RyberService {
                     addCart:{
                         click:(evt:MouseEvent)=>{
 
-                            this.store.cart.items.push(result)
-                            this.router.navigateByUrl('/cart')
-                        }
+                            if(!result.addCart.inCart){
+                                this.store.cart.items.push(result)
+                                this.router.navigateByUrl('/cart');
+                                result.addCart.inCart = true
+                            }
+                            else{
+                                result.quantity.input.value += 1
+                                this.router.navigateByUrl('/cart');
+                            }
+
+                        },
+                        inCart:false
                     },
                     quantity:{
                         input:{
@@ -95,7 +105,13 @@ export class RyberService {
                         }
                     },
                     subtotal:{
-                        text:()=>result.price.value*result.quantity.input.value
+                        text:()=>{
+                            return "$"+result.subtotal.value()
+                        },
+                        value:()=>{
+                            let value = (result.price.value*result.quantity.input.value).toFixed(2)
+                            return parseFloat(value)
+                        }
                     }
                 }
                 return result
@@ -103,46 +119,14 @@ export class RyberService {
         },
         cart:{
             empty:true,
-            items:Array(1).fill(null)
-            .map((x:any,i)=>{
-                return {
-                    title:{
-                        text:"QR Code 1"
-                    },
-                    img:{
-                        src:mediaPrefix({media:'shop_1.png'})
-                    },
-                    price:{
-                        text:"$29.99",
-                        value:29.99
-                    },
-                    quantity:{
-                        input:{
-                            value:1
-                        },
-                        add:{
-                            click:(evt:MouseEvent)=>{
-                                this.store.cart.items[i].quantity.input.value++
-                            }
-                        },
-                        remove:{
-                            click:(evt:MouseEvent)=>{
-                                if(this.store.cart.items[i].quantity.input.value>1){
-                                    this.store.cart.items[i].quantity.input.value--
-                                }
-                            }
-                        }
-                    },
-                    subtotal:{
-                        text:()=>this.store.cart.items[i].price.value*this.store.cart.items[i].quantity.input.value
-                    }
-                }
-            }),
+            items:[],
             total:{
-                text:()=>this.store.cart.items.reduce((acc,cur)=>{
-                    return acc+cur.subtotal.text()
-                },0)
-            }
+                value:()=>this.store.cart.items.reduce((acc,cur)=>{
+                    return acc+cur.subtotal.value()
+                },0).toFixed(2),
+                text:()=>"$"+this.store.cart.total.value()
+            },
+
         }
     }
 }

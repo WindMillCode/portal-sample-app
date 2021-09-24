@@ -1,12 +1,12 @@
 # E2E TESTS
 
-## Intro
-* test that when I click the begin button I am brought to the map
+## Shop Cart
+* test that when you add an item it shows up in the cart
+* test that when you increase the quanitity the total and subtotal gets updated accordingly
+* provide solutions for session  persistence
+* test when user adds same product already in cart, that the quantity updates
+* I should be able toremove an item fro m the cart
 
-## Home
-* test that when the marker is moved to the egg the egg is collected and it disappears from the map
-* test that when I complted the quest the game is finished
-* test that when I click instructions, I am brought to the instructions page
 
 # Unit Tests
 

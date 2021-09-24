@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
     prefix ={
         main:classPrefix( {view:`${this.meta.name}MainPod`}),
         view: classPrefix({view:`${this.meta.name}`}),
-        pods:Array(1).fill(null)
+        pods:Array(2).fill(null)
         .map((x:any,i)=>{
             return classPrefix({view:`${this.meta.name}Pod`+i})
         })
@@ -36,6 +36,11 @@ export class MainComponent implements OnInit {
                     text:x
                 }
             })
+        },
+        continueShop:{
+            click:(evt:MouseEvent)=>{
+                this.ryber.router.navigateByUrl('/shop');
+            }
         }
     }
 

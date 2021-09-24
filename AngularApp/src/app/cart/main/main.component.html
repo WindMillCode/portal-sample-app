@@ -38,6 +38,7 @@
                         [class]= "prefix.pods[0]({val:'Item2'})"
                         >
                             <button
+                            [class]= "prefix.pods[0]({val:'Button0'})"
                             (click)="y.quantity.remove.click($event)"
                             >
                                 <i class="pi pi-minus-circle"></i>
@@ -47,6 +48,7 @@
                             [value]="y.quantity.input.value"
                             />
                             <button
+                            [class]= "prefix.pods[0]({val:'Button1'})"
                             (click)="y.quantity.add.click($event)"
                             >
                                 <i class="pi pi-plus-circle"></i>
@@ -70,5 +72,18 @@
                 >{{ryber.store.cart.total.text()}}</h3>
             </div>
         </div>
+
+
+    </section>
+    <section
+    [class]= "prefix.pods[1]({val:''})"
+    >
+        <button
+        (click)="cart.continueShop.click($event)"
+        [class]= "prefix.pods[1]({val:'Button0'})"
+        >Continue Shopping</button>
+        <button
+        [class]= "prefix.pods[1]({val:'Button1'})"
+        >Checkout</button>
     </section>
 </main>

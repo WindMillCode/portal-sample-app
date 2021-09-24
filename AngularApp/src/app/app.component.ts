@@ -4,7 +4,7 @@ import { environment as env } from 'src/environments/environment';
 import {Route} from '@angular/router';
 import { eventDispatcher,numberParse } from './customExports';
 import { of,Subscription,fromEvent } from 'rxjs';
-import { delay,tap } from 'rxjs/operators';
+import { delay,tap,repeat ,concatMap, exhaust, exhaustMap} from 'rxjs/operators';
 
 declare global{
     var Prism:any
@@ -43,10 +43,46 @@ export class AppComponent {
 
     ngAfterViewInit() {
         // dev addtions
-
+        let {ryber} = this
         // e2e automation tests you wnat to remove these
-
-
+        let counter = 0
+        of({})
+        .pipe(
+            exhaustMap(()=>{
+                let counter = 0
+                return of({})
+                .pipe(
+                    delay(500),
+                    tap(()=>{
+                        eventDispatcher({
+                            element:document.querySelectorAll(".a_p_p_ShopPod0Button0")[Math.floor(Math.random()*6)] as HTMLElement,
+                            event:"click"
+                        })
+                    }),
+                    delay(500),
+                    tap(()=>{
+                        Array(Math.floor(Math.random()*5)).fill(null)
+                        .forEach((x:any,i)=>{
+                            eventDispatcher({
+                                element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
+                                event:"click"
+                            })
+                        })
+                        counter++;
+                    }),
+                    delay(500),
+                    tap(()=>{
+                        ryber.router.navigateByUrl("/shop")
+                    }),
+                    repeat(2)
+                )
+            }),
+            delay(3000),
+            tap(()=>{
+                ryber.router.navigateByUrl("/cart")
+            }),
+        )
+        .subscribe()
         //
     }
 

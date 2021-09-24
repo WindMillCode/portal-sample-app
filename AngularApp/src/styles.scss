@@ -13,6 +13,7 @@
     --color1:rgb(230, 232, 240);
     --color2:white;
     --color3:red;
+    --color4:green;
 
     --width0:1200px;
     --margin0:0 20px 0 0;
@@ -40,6 +41,10 @@
 
 @mixin button-0{
     padding:20px 0;
+}
+
+@mixin button-1{
+    padding:5px;
 }
 
 @function my_prod($step){
@@ -396,9 +401,31 @@
             }
         }
         &Pod{
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
             &0{
-                @include flex-pattern-1;
+
                 flex-wrap:wrap;
+
+                &Button{
+
+                    @for $i from 0 through 1 {
+                        &#{$i}{
+                            @include button-1;
+                            color:var(--color2);
+                        }
+                    }
+                    &0{
+                        background-color:var(--color3);
+                    }
+                    &1{
+                        background-color:var(--color4);
+                    }
+                }
+
                 &Text{
                     &0{
                         padding: 20px;
@@ -462,6 +489,27 @@
                     &4{
                         display: flex;
                         justify-content: flex-end;
+                    }
+                }
+            }
+
+            &1{
+                justify-content: space-between;
+
+                &Button{
+
+                    @for $i from 0 through 1 {
+                        &#{$i}{
+                            @include button-1;
+                            color:var(--color2);
+                            font-size:1.5em;
+                        }
+                    }
+                    &0{
+                        background-color:var(--color3);
+                    }
+                    &1{
+                        background-color:var(--color4);
                     }
                 }
             }
