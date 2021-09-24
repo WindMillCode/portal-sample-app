@@ -47,7 +47,24 @@
                 [class]= "prefix.pods[0]({val:'Button0'})"
                 >Search</button>
             </div>
-            <h2>Your Cart</h2>
+            <div
+            (mouseover)="header.cart.pod.mouseover($event)"
+            (mouseout)="header.cart.pod.mouseout($event)"
+            >
+                <h2>Your Cart</h2>
+                <div
+                [ngStyle]="header.cart.modal.style"
+                [class]= "prefix.pods[0]({val:'Item5'})"
+                >
+                    <button
+                    [class]= "prefix.pods[0]({val:'Button1'})"
+                    >View Cart</button>
+                    <button
+                    [class]= "prefix.pods[0]({val:'Button2'})"
+                    >Checkout</button>
+                </div>
+            </div>
+
         </section>
     </div>
 </header>

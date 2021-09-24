@@ -28,6 +28,25 @@ export class HeaderComponent implements OnInit {
     subs: Subscription[] = [];
     //
 
+    header:any = {
+        cart:{
+            pod:{
+                mouseover:(evt:Event)=>{
+                    let {header,ref} = this
+                    header.cart.modal.style.display="flex"
+                    ref.detectChanges()
+                },
+                mouseout:(evt:Event)=>{
+                    let {header,ref} = this
+                    header.cart.modal.style.display="none"
+                    ref.detectChanges()
+                },
+            },
+            modal:{
+                style:{}
+            }
+        }
+    }
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -36,6 +55,7 @@ export class HeaderComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+
     }
 
     ngOnDestroy(): void {

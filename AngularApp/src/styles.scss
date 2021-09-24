@@ -11,6 +11,8 @@
 :root{
     --color0:black;
     --color1:rgb(230, 232, 240);
+    --color2:white;
+    --color3:red;
     --width0:1200px;
     --margin0:0 20px 0 0;
 }
@@ -28,6 +30,9 @@
 
 }
 
+@mixin button-0{
+    padding:20px 0;
+}
 
 @function my_prod($step){
     $type: prod;
@@ -57,10 +62,12 @@
 
     &Header{
         &View{
+            position: relative;
             width:100vw;
             display: flex;
             font-size:12px;
-            color:white
+            color:var(--color2);
+            z-index:5;
         }
         &Main{
             &Pod{
@@ -75,7 +82,7 @@
         &Pod{
             &0{
                 flex: 0 0 60%;
-                border:1px solid red;
+                border:1px solid var(--color3);
                 display: flex;
                 max-width: var(--width0);
                 padding:10px;
@@ -107,6 +114,16 @@
                         flex:0 0 40%;
                         display:flex;
                     }
+
+                    &5{
+                        background-color: var(--color1);
+                        height:200px;
+                        width: 200px;
+                        position:absolute;
+                        display:none;
+                        align-items: flex-end;
+
+                    }
                 }
 
                 &Input{
@@ -119,6 +136,23 @@
                     &0{
 
                     }
+
+                    &1{
+                       flex: 0 0 50%;
+                       @include button-0;
+                       background: var(--radial-bg-darkblue);
+                       color:var(--color2);
+                       font-size:1.5em;
+                    }
+
+                    &2{
+                        flex: 0 0 50%;
+                        @include button-0;
+                        background: var(--radial-bg-red);
+                        color:var(--color2);
+                        font-size:1.5em;
+
+                     }
                 }
 
                 &Text{
