@@ -9,9 +9,24 @@
 @import "assets/styles/fonts";
 
 :root{
-
+    --color0:black;
+    --color1:rgb(230, 232, 240);
+    --width0:1200px;
+    --margin0:0 20px 0 0;
 }
 
+@mixin flex-pattern-0{
+    width:100vw;
+    display: flex;
+}
+
+@mixin flex-pattern-1{
+    flex: 0 0 60%;
+    max-width: var(--width0);
+    display:flex;
+    padding:20px;
+
+}
 
 
 @function my_prod($step){
@@ -39,7 +54,242 @@
         }
 
     }
+
+    &Header{
+        &View{
+            width:100vw;
+            display: flex;
+            font-size:12px;
+            color:white
+        }
+        &Main{
+            &Pod{
+                background-color: var(--color0);
+                padding:20px;
+                height: 150px;
+                flex: 1  0 100%;
+                display:flex;
+                justify-content: center;
+            }
+        }
+        &Pod{
+            &0{
+                flex: 0 0 60%;
+                border:1px solid red;
+                display: flex;
+                max-width: var(--width0);
+                padding:10px;
+                align-items: flex-start;
+                flex-wrap: wrap;
+
+                &Item{
+                    &0{
+                        display: flex;
+                        justify-content: space-between;
+                        flex:1 0 100%;
+                    }
+
+                    &1{
+                        display: flex;
+                    }
+
+                    &2{
+                        display: flex;
+                    }
+
+                    &3{
+                        display: flex;
+                        flex:1 0 100%;
+                        justify-content: space-evenly;
+                    }
+
+                    &4{
+                        flex:0 0 40%;
+                        display:flex;
+                    }
+                }
+
+                &Input{
+                    &0{
+                        flex:1 0 40%;
+                    }
+                }
+
+                &Button{
+                    &0{
+
+                    }
+                }
+
+                &Text{
+                    &0{
+                        font-size:1em ;
+                        margin:0 20px 0 0;
+                    }
+
+                    &1{
+                        font-size:3em;
+
+                    }
+                }
+            }
+        }
+    }
+
+    &Nav{
+        &View{
+            display: flex;
+            width: 100vw;
+
+        }
+        &Main{
+            &Pod{
+                display:flex;
+                padding:20px;
+                justify-content: center;
+                flex:1 0 100%;
+                border-bottom: 3px solid var(--color1);
+            }
+        }
+        &Pod{
+            &0{
+                display:flex;
+                flex: 0 0 60%;
+                max-width: var(--width0);
+
+                &Link{
+                    &0{
+                        margin:0 40px 0 0;
+
+                    }
+                }
+            }
+        }
+    }
+
+    &Home{
+        &View{
+            @include flex-pattern-0;
+            color:white;
+            margin:0 0 50px 0;
+        }
+        &Main{
+            &Pod{
+
+                display:flex;
+                justify-content: center;
+                flex: 1 0 100%;
+                flex-wrap:wrap;
+            }
+        }
+        &Pod{
+
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+                padding:20px;
+
+                &Item{
+                    &0{
+                        flex: 1 1 33%;
+                        display:flex;
+                        margin:0 20px 0 0;
+                    }
+
+                    &1{
+                        padding:40px;
+                        flex:1 0 100%;
+                        background-color: rgba(240, 52, 52, .8);
+                    }
+                }
+            }
+
+            &1{
+                color:black;
+                flex-wrap:wrap;
+
+
+                &Item{
+                    &0{
+                        border:2px solid var(--color1);
+                        flex: 1 1 30%;
+                        height:180px;
+                        margin:var(--margin0);
+                    }
+                }
+
+                &Title{
+                    &0{
+                        flex:1 0 100%;
+                        margin:0 0 20px 0;
+                    }
+                }
+
+                &Img{
+                    &0{
+                        width:inherit;
+                        height:inherit;
+                    }
+                }
+            }
+        }
+    }
+
+    &Footer{
+        &View{
+            @include flex-pattern-0;
+            color:white;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                display:flex;
+                justify-content: center;
+                flex: 1 0 100%;
+                flex-wrap:wrap;
+                background-color: var(--color0);
+            }
+        }
+        &Pod{
+            &0{
+                @include flex-pattern-1;
+                padding:40px 20px;
+
+
+                &Text{
+                    &0{
+                        font-size:.8em;
+                    }
+                }
+
+                &Item{
+
+                    @for $i from 0 through 3 {
+                        &#{$i}{
+                            flex: 0 0 25%;
+                            margin: var(--margin0);
+                            display: flex;
+                            flex-flow: column wrap;
+
+                            & *{
+                                margin:10px 0 0 0;
+                            }
+                        }
+                    }
+
+                    &0{
+
+
+                    }
+                }
+            }
+        }
+    }
 }
+
 
 
 

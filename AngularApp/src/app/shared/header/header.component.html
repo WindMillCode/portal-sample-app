@@ -1,0 +1,54 @@
+
+<header
+[class]="prefix.main({val:''})"
+>
+    <div
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <section
+        [class]= "prefix.pods[0]({val:'Item0'})"
+        >
+            <div
+            [class]= "prefix.pods[0]({val:'Item1'})"
+            >
+                <h2
+                *ngFor="let item of ryber.store.meta.items"
+                [class]= "prefix.pods[0]({val:'Text0'})"
+                >{{item.text}}</h2>
+
+            </div>
+            <div
+            [class]= "prefix.pods[0]({val:'Item2'})"
+            >
+                <h2
+                [class]= "prefix.pods[0]({val:'Text0'})"
+                >USD</h2>
+                <h2
+                [class]= "prefix.pods[0]({val:'Text0'})"
+                >My Account</h2>
+            </div>
+
+        </section>
+        <section
+        [class]= "prefix.pods[0]({val:'Item3'})"
+        >
+            <h1
+            [class]= "prefix.pods[0]({val:'Text1'})"
+            >
+                Portal
+            </h1>
+            <div
+            [class]= "prefix.pods[0]({val:'Item4'})"
+            >
+                <input
+                [class]= "prefix.pods[0]({val:'Input0'})"
+                />
+                <button
+                [class]= "prefix.pods[0]({val:'Button0'})"
+                >Search</button>
+            </div>
+            <h2>Your Cart</h2>
+        </section>
+    </div>
+</header>
+

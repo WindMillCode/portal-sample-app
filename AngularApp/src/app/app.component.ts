@@ -16,7 +16,7 @@ declare global{
 })
 export class AppComponent {
     // metadata
-    title = 'WindMillCode';
+    title = 'Portal';
     subs: Subscription[] = [];
     //
 

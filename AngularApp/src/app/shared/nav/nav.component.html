@@ -1,0 +1,17 @@
+
+<section
+[class]= "prefix.main({val:'Pod'})"
+>
+    <div
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <div
+        *ngFor="let item of nav.links.items"
+        >
+            <a
+            [class]= "prefix.pods[0]({val:'Link0'})"
+            >{{item.text}}</a>
+        </div>
+    </div>
+</section>
+

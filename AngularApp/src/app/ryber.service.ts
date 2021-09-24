@@ -14,74 +14,38 @@ export class RyberService {
         public http: HttpClient
     ) { }
 
-    nav:any={
-        inital:false,
-        initOnMobile:false,
-        items:[
-            "HOME",
-            "ABOUT",
-            "BLOG",
-            "EVENTS",
-            "LABS",
-            "SHOP",
-        ],
-        showMenu:{
-            click:(evt)=>{
-                let {changeDisplay} =this.nav.mobileMenu.view
-                changeDisplay()
-
-            }
-        },
-        showFn:(devObj)=>{
-        let {vcf,ref} = devObj
-            vcf.element.nativeElement.style.opacity = 1;
-            this.nav.inital = true
-            ref.detectChanges();
-        }
-    }
-
-    labs :any ={
-        panel:{
-            show:false,
-            view:{
-                style:{
-                    width:"0px"
-                },
-            },
-            url:{
-                style:{},
-                type:"iframe"
-            },
-            thumbnail:{
-                style:{}
-            },
-            title:{
-                style:{}
-            },
-            lab:{
-                style:{},
-                type:"iframe"
-            },
-            close:{
-                click:(evt:Event)=>{
-                    let {labs}=this;
-                    labs.panel.view.style.opacity = 0
-                    labs.panel.view.style.height = '0px';
-                    labs.panel.view.style.width = '0px';
-                    delete labs.panel.view.style.transition;
-
-                    // let the animation occur then close the panel
-                    of({})
-                    .pipe(
-                        delay(2000),
-                        tap(()=>{
-                            labs.panel.show = false
-                        })
-                    )
-                    .subscribe()
-                    //
+    store = {
+        meta:{
+            items:["111-222-3333","email@gmail.com","567 ABC Road, Wakanda"]
+            .map((x:any,i)=>{
+                return {
+                    text:x
                 }
-            }
+            })
         },
+        categories:{
+            items:["Hot deals","QR Codes","NFT's","T-shirts"]
+            .map((x:any,i)=>{
+                return {
+                    text:x
+                }
+            })
+        },
+        info:{
+            items:["About","Contact","Privacy Policy","Orders/Returns","Terms & Conditions"]
+            .map((x:any,i)=>{
+                return {
+                    text:x
+                }
+            })
+        },
+        service:{
+            items:["My account","View Cart","Wishlist","Track My Order","Help"]
+            .map((x:any,i)=>{
+                return {
+                    text:x
+                }
+            })
+        }
     }
 }
