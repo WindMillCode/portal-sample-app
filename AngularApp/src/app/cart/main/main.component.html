@@ -1,0 +1,74 @@
+<main
+[class]= "prefix.main({val:''})"
+>
+    <section
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <div
+        [class]= "prefix.pods[0]({val:'Item0'})"
+        >
+            <div
+            [class]= "prefix.pods[0]({val:'Item3'})"
+            >
+                <div
+                *ngFor= "let x of cart.labels.items;let i = index"
+                >
+                    <h3
+                    [class]= "prefix.pods[0]({val:'Text0'})"
+                    >{{x.text}}</h3>
+                    <div
+                    [class]= "prefix.pods[0]({val:'Item1'})"
+                    [ngSwitch]="i"
+                    *ngFor="let y of ryber.store.cart.items;let j = index"
+                    >
+                        <img
+                        *ngSwitchCase="0"
+                        [class]= "prefix.pods[0]({val:'Img0'})"
+                        [src]="y.img.src"
+                        />
+                        <h3
+                        *ngSwitchCase="1"
+                        [class]= "prefix.pods[0]({val:'Text1'})"
+                        >{{y.title.text}}</h3>
+                        <h3
+                        *ngSwitchCase="2"
+                        >{{y.price.text}}</h3>
+                        <div
+                        *ngSwitchCase="3"
+                        [class]= "prefix.pods[0]({val:'Item2'})"
+                        >
+                            <button
+                            (click)="y.quantity.remove.click($event)"
+                            >
+                                <i class="pi pi-minus-circle"></i>
+                            </button>
+                            <input
+                            [class]= "prefix.pods[0]({val:'Input0'})"
+                            [value]="y.quantity.input.value"
+                            />
+                            <button
+                            (click)="y.quantity.add.click($event)"
+                            >
+                                <i class="pi pi-plus-circle"></i>
+                            </button>
+                        </div>
+                        <h3
+                        *ngSwitchCase="4"
+                        >{{y.subtotal.text()}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div
+            [class]= "prefix.pods[0]({val:'Item4'})"
+            >
+                <h3
+                [class]= "prefix.pods[0]({val:'Text2'})"
+                >TOTAL</h3>
+                <h3
+                [class]= "prefix.pods[0]({val:'Text2'})"
+                >{{ryber.store.cart.total.text()}}</h3>
+            </div>
+        </div>
+    </section>
+</main>

@@ -4,7 +4,7 @@
 
 // @import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
 // @import "../node_modules/primeng/resources/primeng.min.css";
-// @import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/primeicons/primeicons.css";
 @import "assets/styles/util";
 @import "assets/styles/fonts";
 
@@ -13,6 +13,7 @@
     --color1:rgb(230, 232, 240);
     --color2:white;
     --color3:red;
+
     --width0:1200px;
     --margin0:0 20px 0 0;
 }
@@ -28,6 +29,13 @@
     display:flex;
     padding:20px;
 
+}
+
+@mixin flex-pattern-2{
+    display:flex;
+    justify-content: center;
+    flex: 1 0 100%;
+    flex-wrap:wrap;
 }
 
 @mixin button-0{
@@ -317,6 +325,143 @@
                     &0{
 
 
+                    }
+                }
+            }
+        }
+    }
+
+    &Shop{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2
+            }
+        }
+        &Pod{
+            &0{
+                @include flex-pattern-1;
+                flex-wrap:wrap;
+
+                &Item{
+                    &0{
+                        flex:0 0 30%;
+                        margin:20px 20px 0 0;
+                        border:2px solid var(--color1);
+                        @include flex-column-center;
+                        min-width:264px;
+
+                    }
+                }
+
+                &Img{
+                    &0{
+                        height:200px;
+                        width:100%;
+                    }
+                }
+
+                &Price{
+                    &0{
+                        width: 90%;
+                        margin:20px;
+                    }
+                }
+
+                &Button{
+                    &0{
+                        color:var(--color3);
+                        padding:20px 30px;
+                        border:3px solid var(--color3);
+                        font-size:1em;
+                    }
+                }
+            }
+        }
+    }
+
+    &Cart{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2;
+            }
+        }
+        &Pod{
+            &0{
+                @include flex-pattern-1;
+                flex-wrap:wrap;
+                &Text{
+                    &0{
+                        padding: 20px;
+                        background-color: var(--color0);
+                        color:white;
+                    }
+
+                    &1{
+                        width:400px
+                        // flex:1 0 100%;
+                    }
+
+                    &2{
+                        border:1px solid var(--color1);
+                        padding:20px 100px;
+                    }
+                }
+
+                &Img{
+                    &0{
+                        width:50px;
+                    }
+
+                }
+
+                &Input{
+                    &0{
+                        flex:0 0 20%;
+                        width:auto;
+                        min-width: 0;
+                        text-align: center;
+                    }
+                }
+
+                &Item{
+                    &0{
+                        flex:1 0 100%;
+                        display:flex;
+                        flex-flow: column wrap;
+                    }
+
+                    &1{
+                        border:2px solid var(--color1);
+                        height:100px;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    &2{
+                        border-radius: 10px;
+                        flex: 0 0 50%;
+                        display:flex;
+                        justify-content: center;
+                    }
+
+                    &3{
+                        display: flex;
+                    }
+
+                    &4{
+                        display: flex;
+                        justify-content: flex-end;
                     }
                 }
             }

@@ -1,0 +1,29 @@
+<main
+[class]= "prefix.main({val:''})"
+>
+    <section
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <div
+        [class]= "prefix.pods[0]({val:'Item0'})"
+        *ngFor="let item of ryber.store.products.items"
+        >
+            <img
+            [class]= "prefix.pods[0]({val:'Img0'})"
+            [src]= "item.img.src"
+            />
+            <h2>
+                {{item.title.text}}
+            </h2>
+            <h3
+            [class]= "prefix.pods[0]({val:'Price0'})"
+            >
+                {{item.price.text}}
+            </h3>
+            <button
+            (click)="item.addCart.click($event)"
+            [class]= "prefix.pods[0]({val:'Button0'})"
+            >Add To Cart</button>
+        </div>
+    </section>
+</main>

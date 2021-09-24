@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SampleRoutingModule } from './sample-routing.module';
+import { ShopRoutingModule } from './shop-routing.module';
 import { MainComponent } from './main/main.component';
 
 
@@ -11,10 +11,10 @@ import { MainComponent } from './main/main.component';
   ],
   imports: [
     CommonModule,
-    SampleRoutingModule
+    ShopRoutingModule
   ],
   exports: [
     MainComponent
   ]
 })
-export class SampleModule { }
+export class StoreModule { }

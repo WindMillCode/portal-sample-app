@@ -6,20 +6,19 @@ import { environment as env } from 'src/environments/environment';
 
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
     // metadata
     meta = {
-        name:"Nav"
+        name:"Header"
     }
     @HostBinding('class') myClass: string = `a_p_p_${this.meta.name}View`;
     prefix ={
-        main:classPrefix( {view:`${this.meta.name}Main`}),
+        main:classPrefix( {view:`${this.meta.name}MainPod`}),
         view: classPrefix({view:`${this.meta.name}`}),
         pods:Array(1).fill(null)
         .map((x:any,i)=>{
@@ -29,16 +28,6 @@ export class NavComponent implements OnInit {
     subs: Subscription[] = [];
     //
 
-    nav = {
-        links:{
-            items:["Home","Categories","Games","Contact Us"]
-            .map((x:any,i)=>{
-                return {
-                    text:x
-                }
-            })
-        }
-    }
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -47,6 +36,7 @@ export class NavComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+
     }
 
     ngOnDestroy(): void {
@@ -55,6 +45,5 @@ export class NavComponent implements OnInit {
             x?.unsubscribe();
         })
     }
-
 
 }
