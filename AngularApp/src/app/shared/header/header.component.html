@@ -29,7 +29,9 @@
                 <h2
                 [class]= "prefix.pods[0]({val:'Text0'})"
                 >My Account</h2>
-                <button>Logout</button>
+                <button
+                (click)="ryber.store.accounts.logout.click($event)"
+                >Logout</button>
             </div>
 
         </section>

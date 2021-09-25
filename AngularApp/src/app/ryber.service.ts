@@ -26,11 +26,11 @@ export class RyberService {
             })
         },
         categories:{
-            items:["Create Account","Store","Cart","Checkout"]
+            items:["Login","Create Account","Store","Cart","Checkout"]
             .map((x:any,i)=>{
                 return {
                     text:x,
-                    routerLink:["/create-acct","/shop","/cart/","/checkout"][i]
+                    routerLink:["/login","/create-acct","/shop","/cart/","/checkout"][i]
                 }
             })
         },
@@ -153,38 +153,30 @@ export class RyberService {
                     return result
                 })
             },
-            submit:{
+            logout:{
                 click:(evt:MouseEvent)=>{
-                    let newAcct = {
-                        user:this.store.accounts.ui.items[0].value,
-                        pass:this.store.accounts.ui.items[1].value,
-                        billing:{
-                            items:[]
-                        },
-                        shipping:{
-                            info:{
-                                items:[]
-                            },
-                            sameAsBilling:{
-                                checked:true
-                            }
-                        }
-                    }
-                    Object.entries(newAcct)
-                    .forEach((x:any,i)=>{
-                        let [keyx,valx] = x
-                        this.store.accounts.current[keyx]= valx
+                    Object.keys(this.store.accounts.current)
+                    .forEach((x,i)=>{
+                        this.store.accounts.current[x] = ""
                     })
-                    this.store.accounts.all.items.push(newAcct)
-                    console.log(newAcct,this.store.accounts.current)
-                    alert("Account Created")
+                }
+            },
+            login:{
+                submit:{
+                    click:(evt:MouseEvent)=>{
+                        let passwords = this.store.accounts.all.items
+                        .map((x:any,i)=>{
+                            return x.pass
+                        })
+                        console.log(passwords)
+                    }
                 }
             },
             all:{
                 items:[]
             },
             current:{
-                user:"ABBA"
+
             }
         },
         checkout:{
@@ -233,6 +225,7 @@ export class RyberService {
                 },
                 placeOrder:{
                     click:(evt:MouseEvent)=>{
+                        let acctCurrent = this.store.accounts.current
                         let {billing,shipping} = this.store.checkout
                         let {items:cartItems,total:cartTotal} = this.store.cart
 
@@ -261,9 +254,13 @@ export class RyberService {
                             }),
                             sameAsBilling:shipping.sameAsBilling.checked
                         }
+                        let myAcctCurrent = {
+                            user:acctCurrent?.user || "guest",
+                            billing:myBilling,
+                            shipping:myShipping
+                        }
                         console.log(
-                            myBilling,
-                            myShipping,
+                            myAcctCurrent,
                             myCartItems,
                             cartTotal.text()
                         )

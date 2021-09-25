@@ -1,9 +1,9 @@
-<main
+<div
 [class]= "prefix.main({val:'Pod'})"
 >
     <h1
     [class]= "prefix.main({val:'Title0'})"
-    >CREATE ACCOUNT</h1>
+    >LOGIN</h1>
     <section
     [class]= "prefix.pods[0]({val:''})"
     >
@@ -15,8 +15,8 @@
         *ngFor="let item of ryber.store.accounts.ui.items"
         />
         <button
-        (click)= "accounts.submit.click($event)"
+        (click)= "ryber.store.accounts.login.submit.click($event)"
         [class]= "prefix.pods[0]({val:'Button0'})"
-        >Create Account</button>
+        >Login</button>
     </section>
-</main>
+</div>

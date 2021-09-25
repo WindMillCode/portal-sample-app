@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('./checkout/checkout.module').then(m => m.CheckoutModule)
     },
     {
+        path:'login',
+        loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+    },
+    {
         path:'create-acct',
         loadChildren: () => import('./create-acct/create-acct.module').then(m => m.CreateAcctModule)
     },

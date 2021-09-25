@@ -55,7 +55,8 @@ export class MainComponent implements OnInit {
                     ryber.store.accounts.current[keyx]= valx
                 })
                 ryber.store.accounts.all.items.push(newAcct)
-                console.log(newAcct,ryber.store.accounts.current)
+                console.log(newAcct)
+                ryber.router.navigateByUrl("/shop")
                 ref.detectChanges()
 
             }
