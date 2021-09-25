@@ -7,8 +7,7 @@ import { environment as env } from 'src/environments/environment';
 
 @Component({
     selector: 'app-header',
-    templateUrl: './header.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
 

@@ -26,11 +26,11 @@ export class RyberService {
             })
         },
         categories:{
-            items:["Hot deals","Store","Cart","Checkout"]
+            items:["Create Account","Store","Cart","Checkout"]
             .map((x:any,i)=>{
                 return {
                     text:x,
-                    routerLink:["/deals","/shop","/cart/","/checkout"][i]
+                    routerLink:["/create-acct","/shop","/cart/","/checkout"][i]
                 }
             })
         },
@@ -138,6 +138,54 @@ export class RyberService {
                 text:()=>"$"+this.store.cart.total.value()
             },
 
+        },
+        accounts:{
+            ui:{
+                items:["Username","Password"]
+                .map((x:any,i)=>{
+                    let result = {
+                        placeholder:x,
+                        value:  "",
+                        blur:(evt:Event |any )=>{
+                            result.value = evt.target.value
+                        }
+                    }
+                    return result
+                })
+            },
+            submit:{
+                click:(evt:MouseEvent)=>{
+                    let newAcct = {
+                        user:this.store.accounts.ui.items[0].value,
+                        pass:this.store.accounts.ui.items[1].value,
+                        billing:{
+                            items:[]
+                        },
+                        shipping:{
+                            info:{
+                                items:[]
+                            },
+                            sameAsBilling:{
+                                checked:true
+                            }
+                        }
+                    }
+                    Object.entries(newAcct)
+                    .forEach((x:any,i)=>{
+                        let [keyx,valx] = x
+                        this.store.accounts.current[keyx]= valx
+                    })
+                    this.store.accounts.all.items.push(newAcct)
+                    console.log(newAcct,this.store.accounts.current)
+                    alert("Account Created")
+                }
+            },
+            all:{
+                items:[]
+            },
+            current:{
+                user:"ABBA"
+            }
         },
         checkout:{
             billing:{

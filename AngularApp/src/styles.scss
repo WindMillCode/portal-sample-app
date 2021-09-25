@@ -600,6 +600,57 @@
             }
         }
     }
+
+    &CreateAcct{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2;
+                flex-wrap:wrap;
+            }
+
+            &Title{
+                &0{
+                    flex:1 0 100%;
+                    @include tac;
+                }
+            }
+        }
+        &Pod{
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+                flex-direction:column;
+
+
+                &Input{
+                    &0{
+                        margin:20px 0 0 0;
+                        padding:10px;
+                        font-size:1em;
+                        
+                    }
+                }
+
+                &Button{
+                    &0{
+                        @include button-0;
+                        background-color: var(--color4);
+                        margin:20px 0 0 0;
+                        width: 50%;
+                        align-self:center;
+                    }
+                }
+            }
+        }
+    }
 }
 
 
