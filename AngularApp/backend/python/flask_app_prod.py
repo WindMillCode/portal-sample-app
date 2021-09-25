@@ -5,6 +5,7 @@ elif sys.platform =="linux":
     sys.path.append(sys.path[0] + "/site-packages/linux")
 from flask import Flask, request, redirect
 import os
+from flask_sqlalchemy import SQLAlchemy 
 
 
 # dev additions
@@ -41,6 +42,26 @@ app.config.update(
     SECRET_KEY=os.environ.get("FLASK_SOCKET_IO_SECRET_KEY")
 )
 sio = SocketIO(app,cors_allowed_origins="https://feroz-qrcode-app.netlify.app")
+
+#initiliase the database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db=SQLAlchemy(app)
+
+class Products(db.Model):
+    itemId = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable = False)
+    text = db.Column(db.String(3000), nullable = False)
+    img = db.Column(db.String())
+    img_data = db.Column(db.LargeBinary)
+    price = db.Column(db.Integer, nullable = False)
+        
+    def any(self):
+        return '<product itemId = {} ,title ={}, text={}, price={},>'.format(self.itemId, self.title, self.price)
+    
+#function to list products 
+def get_products():
+	prod = Products.query.first()
+	return prod.Products
 
 @sio.event
 def connect():
