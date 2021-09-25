@@ -90,9 +90,9 @@
                             "outputHashing": "all"
                         },
                         "githubprod": {
-                            "outputPath":"../docs",
-                            "baseHref":"/Website/",
-                            "deployUrl":"/Website/",
+                            "outputPath":"./dist/githubprod",
+                            "baseHref":"/portal-sample-app/",
+                            "deployUrl":"/portal-sample-app/",
                             "budgets": [
                                 {
                                     "type": "initial",

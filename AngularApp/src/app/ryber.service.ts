@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { delay,tap } from 'rxjs/operators';
 import { mediaPrefix } from './customExports';
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -87,9 +88,19 @@ export class RyberService {
                         },
                         inCart:false
                     },
+                    removeItem:{
+                        click:(evt:MouseEvent)=>{
+                            let index = this.store.cart.items.indexOf(result)
+                            this.store.cart.items.splice(index,1)
+                            result.addCart.inCart = false
+                        }
+                    },
                     quantity:{
                         input:{
-                            value:1
+                            value:1,
+                            blur:(evt:FocusEvent |any)=>{
+                                result.quantity.input.value = evt.target.value
+                            }
                         },
                         add:{
                             click:(evt:MouseEvent)=>{
@@ -127,6 +138,94 @@ export class RyberService {
                 text:()=>"$"+this.store.cart.total.value()
             },
 
+        },
+        checkout:{
+            billing:{
+                items:["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+                .map((x:any,i)=>{
+                    let result = {
+                        placeholder:x,
+                        value:  "",
+                        blur:(evt:Event |any )=>{
+                            result.value = evt.target.value
+                        }
+                    }
+                    return result
+                })
+            },
+            shipping:{
+                sameAsBilling:{
+                    checked:true,
+                    change:(evt:Event |any)=>{
+                        this.store.checkout.shipping.sameAsBilling.checked = evt.target.checked
+                    }
+                },
+                info:{
+                    items:["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+                    .map((x:any,i)=>{
+                        let result = {
+                            placeholder:x,
+                            value:"",
+                            blur:(evt:Event |any )=>{
+                                result.value = evt.target.value
+                            }
+                        }
+                        return result
+                    })
+                }
+            },
+            payment:{
+                paypal:{
+                    option:{
+                        checked:false,
+                        change:(evt:Event |any )=>{
+
+                        }
+                    }
+                },
+                placeOrder:{
+                    click:(evt:MouseEvent)=>{
+                        let {billing,shipping} = this.store.checkout
+                        let {items:cartItems,total:cartTotal} = this.store.cart
+
+                        let myCartItems = cartItems.map((x:any,i)=>{
+                            return {
+                                name:x.title.text,
+                                price:x.price.value,
+                                quantity:x.quantity.input.value
+                            }
+                        })
+                        let myBilling = {
+                            items:billing.items.map((x:any,i)=>{
+                                return {
+                                    name:x.placeholder,
+                                    value:x.value
+                                }
+                            })
+                        }
+                        let myShipping = {
+                            items:shipping.sameAsBilling.checked ? myBilling.items :
+                            shipping.info.items.map((x:any,i)=>{
+                                return {
+                                    name:x.placeholder,
+                                    value:x.value
+                                }
+                            }),
+                            sameAsBilling:shipping.sameAsBilling.checked
+                        }
+                        console.log(
+                            myBilling,
+                            myShipping,
+                            myCartItems,
+                            cartTotal.text()
+                        )
+
+                        // XHR to backend
+                        alert("check console log")
+                        //
+                    }
+                }
+            }
         }
     }
 }

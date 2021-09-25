@@ -1,0 +1,85 @@
+<main
+[class]= "prefix.main({val:''})"
+>
+    <section
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <section
+        [class]= "prefix.pods[0]({val:'Item0'})"
+        >
+            <h2>BILLING ADDRESS</h2>
+            <input
+            (blur)="item.blur($event)"
+            [value]="item.value"
+            [class]= "prefix.pods[0]({val:'Input0'})"
+            *ngFor="let item of ryber.store.checkout.billing.items"
+            [placeholder]= "item.placeholder"
+            >
+            <h2
+            [class]= "prefix.pods[0]({val:'Text0'})"
+            >SHIPPING ADDRESS</h2>
+            <p>
+                <input
+                [class]= "prefix.pods[0]({val:'Input1'})"
+                [checked]= "ryber.store.checkout.shipping.sameAsBilling.checked"
+                (change)="ryber.store.checkout.shipping.sameAsBilling.change($event)"
+                type="checkbox"
+                />
+            Same As Billing</p>
+            <ng-template
+            [ngIf]="!ryber.store.checkout.shipping.sameAsBilling.checked">
+                <input
+                [value]="item.value"
+                (blur)="item.blur($event)"
+                [class]= "prefix.pods[0]({val:'Input0'})"
+                *ngFor="let item of ryber.store.checkout.shipping.info.items"
+                [placeholder]= "item.placeholder"
+                >
+            </ng-template>
+
+        </section>
+
+        <section
+        [class]= "prefix.pods[0]({val:'Item1'})"
+        >
+            <h2>YOUR ORDER</h2>
+            <div
+            [class]= "prefix.pods[0]({val:'Item2'})"
+            >
+                <div>
+                    <h3>PRODUCT</h3>
+                    <h4
+                    [class]= "prefix.pods[0]({val:'Text0'})"
+                    *ngFor="let x of ryber.store.cart.items"
+                    >{{x.title.text}}</h4>
+                    <h3>TOTAL</h3>
+                </div>
+                <div>
+                    <h3>Subtotal</h3>
+                    <h4
+                    [class]= "prefix.pods[0]({val:'Text0'})"
+                    *ngFor="let x of ryber.store.cart.items"
+                    >{{x.subtotal.text()}}</h4>
+                    <h3>{{ryber.store.cart.total.text()}}</h3>
+                </div>
+            </div>
+            <h2
+            [class]= "prefix.pods[0]({val:'Text1'})"
+            >PAY WITH</h2>
+            <p
+            [class]= "prefix.pods[0]({val:'Text1'})"
+            >
+                <input
+                [checked]= "ryber.store.checkout.payment.paypal.option.checked"
+                (change)="ryber.store.checkout.payment.paypal.option.change($event)"
+                type="checkbox"
+                />
+            Paypal</p>
+            <button
+            (click)="ryber.store.checkout.payment.placeOrder.click($event)"
+            [class]= "prefix.pods[0]({val:'Button0'})"
+            >Place Your Order</button>
+        </section>
+    </section>
+
+</main>

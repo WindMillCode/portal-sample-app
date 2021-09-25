@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 // add sample items to cart
-let counter = 0
 of({})
 .pipe(
     exhaustMap(()=>{
