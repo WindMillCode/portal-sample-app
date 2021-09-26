@@ -162,13 +162,42 @@ export class RyberService {
                 }
             },
             login:{
+                ui:{
+                    items:["Username","Password"]
+                    .map((x:any,i)=>{
+                        let result = {
+                            placeholder:x,
+                            value:  "",
+                            blur:(evt:Event |any )=>{
+                                result.value = evt.target.value
+                            }
+                        }
+                        return result
+                    })
+                },
                 submit:{
                     click:(evt:MouseEvent)=>{
+                        let user = this.store.accounts.login.ui.items[0].value
+                        let pass = this.store.accounts.login.ui.items[1].value
                         let passwords = this.store.accounts.all.items
                         .map((x:any,i)=>{
                             return x.pass
                         })
-                        console.log(passwords)
+                        if(passwords.indexOf(pass) !== -1){
+                            this.store.accounts.current.user = user
+                            this.store.accounts.current.pass = pass
+                            this.store.accounts.current.billing = {
+                                items:[]
+                            }
+                            this.store.accounts.current. shipping ={
+                                info:{
+                                    items:[]
+                                },
+                                sameAsBilling:{
+                                    checked:true
+                                }
+                            }
+                        }
                     }
                 }
             },
