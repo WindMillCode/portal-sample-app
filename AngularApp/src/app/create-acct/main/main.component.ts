@@ -1,7 +1,7 @@
 import { Component, OnInit,ChangeDetectionStrategy,ChangeDetectorRef,HostBinding, HostListener,ViewContainerRef } from '@angular/core';
 import {fromEvent,iif,Subscription,of} from 'rxjs';
 import { RyberService } from 'src/app/ryber.service';
-import { classPrefix } from 'src/app/customExports';
+import { classPrefix,Account } from 'src/app/customExports';
 import { environment as env } from 'src/environments/environment';
 import {take, tap} from 'rxjs/operators'
 
@@ -35,15 +35,15 @@ export class MainComponent implements OnInit {
         submit:{
             click:(evt:MouseEvent)=>{
                 let {ryber,ref}=this
-                let newAcct = {
+                let newAcct:Account = {
                     user:ryber.store.accounts.ui.items[0].value,
                     pass:ryber.store.accounts.ui.items[1].value,
                     billing:{
-                        items:[]
+                        items:{}
                     },
                     shipping:{
                         info:{
-                            items:[]
+                            items:{}
                         },
                         sameAsBilling:{
                             checked:true
@@ -69,7 +69,6 @@ export class MainComponent implements OnInit {
                 )
                 .subscribe()
                 //
-                console.log(newAcct)
                 ryber.router.navigateByUrl("/shop")
                 ref.detectChanges()
 

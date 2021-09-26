@@ -9,11 +9,11 @@
         >
             <h2>BILLING ADDRESS</h2>
             <input
-            (blur)="item.blur($event)"
-            [value]="item.value"
+            (blur)="item.value.blur($event)"
+            [value]="item.value.value"
             [class]= "prefix.pods[0]({val:'Input0'})"
-            *ngFor="let item of ryber.store.checkout.billing.items"
-            [placeholder]= "item.placeholder"
+            *ngFor="let item of ryber.store.checkout.billing.items | keyvalue"
+            [placeholder]= "item.value.placeholder"
             >
             <h2
             [class]= "prefix.pods[0]({val:'Text0'})"
@@ -29,11 +29,11 @@
             <ng-template
             [ngIf]="!ryber.store.checkout.shipping.sameAsBilling.checked">
                 <input
-                [value]="item.value"
-                (blur)="item.blur($event)"
+                [value]="item.value.value"
+                (blur)="item.value.blur($event)"
                 [class]= "prefix.pods[0]({val:'Input0'})"
-                *ngFor="let item of ryber.store.checkout.shipping.info.items"
-                [placeholder]= "item.placeholder"
+                *ngFor="let item of ryber.store.checkout.shipping.info.items | keyvalue"
+                [placeholder]= "item.value.placeholder"
                 >
             </ng-template>
 

@@ -1,3 +1,5 @@
+import { Optional } from "@angular/core"
+
 export  function mediaPrefix(devObj){
     let {media} = devObj
     return "./assets/media/"+media
@@ -69,4 +71,94 @@ export class LinkedList{
     }
 
     list= null
+}
+
+type RequireOnlyOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>>
+    & {
+        [K in Keys]-?:
+            Required<Pick<T, K>>
+            & Partial<Record<Exclude<Keys, K>, undefined>>
+    }[Keys]
+
+type SamePropTypeOnly<T> = {
+    [P: string]: T;
+}
+
+// types
+export type Account ={
+    user:string,
+    pass:string
+    billing:{
+        items: { [k: string]: {
+            placeholder: string;
+            value: string;
+            blur: (evt:Event |any) => void; };
+        }
+    },
+    shipping:{
+        sameAsBilling:{
+            checked:boolean,
+        },
+        info:{
+            items:{ [k: string]: {
+                placeholder: string;
+                value: string;
+                blur: (evt:Event |any) => void; };
+            }
+        }
+    },
+}
+export  type RyberStore = {
+    [key:string]:any,
+    accounts:{
+        [key:string]:any,
+        all:{
+            items:Array<Account>
+        },
+        current:Partial<Account>,
+        logout:{
+            click:(MouseEvent)=> void
+        },
+        ui:{
+            items:Array<{
+                placeholder:string,
+                value:string,
+                blur:(evt:Event |any)=>void
+            }>
+        }
+    },
+    checkout:{
+        billing:{
+            items: { [k: string]: {
+                placeholder: string;
+                value: string;
+                blur: (evt:Event |any) => void; };
+            }
+        },
+        shipping:{
+            sameAsBilling:{
+                checked:boolean,
+                change: (evt:Event |any) => void;
+            },
+            info:{
+                items:{ [k: string]: {
+                    placeholder: string;
+                    value: string;
+                    blur: (evt:Event |any) => void; };
+                }
+            }
+        },
+        payment:{
+            paypal:{
+                option:{
+                    checked:boolean,
+                    change: (evt:Event |any) => void;
+                }
+            },
+            placeOrder:{
+                click: (evt:Event |any) => void;
+            }
+        }
+    }
 }

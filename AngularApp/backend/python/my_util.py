@@ -27,12 +27,12 @@ def update_dict(data, source):
     if source is None:
         return data
     elif isinstance(source, dict):
-        return {k: update_dict(v, source.get(k)) for k, v in data.items()}
+        return {k: update_dict(v, source.get(k)) for k, v in source.items()}
     elif isinstance(source, list):
         diff = len(source) - len(data)
         if(diff > 0):
-            [data.append(x) for i,x in enumerate(source) if i >= diff ]
-        return [update_dict(x, source[i]) for i,x in enumerate(data)]
+            [data.append(x) for i,x in enumerate(source) if i > diff ]
+        return [update_dict(x, source[i]) for i,x in enumerate(source)]
     else:
         return source
 

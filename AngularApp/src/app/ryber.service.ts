@@ -3,7 +3,8 @@ import { Event, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { delay,tap } from 'rxjs/operators';
-import { mediaPrefix } from './customExports';
+import { mediaPrefix,RyberStore } from './customExports';
+
 
 
 @Injectable({
@@ -16,7 +17,7 @@ export class RyberService {
         public http: HttpClient
     ) { }
 
-    store:any = {
+    store:RyberStore = {
         meta:{
             items:["111-222-3333","email@gmail.com","567 ABC Road, Wakanda"]
             .map((x:any,i)=>{
@@ -187,11 +188,11 @@ export class RyberService {
                             this.store.accounts.current.user = user
                             this.store.accounts.current.pass = pass
                             this.store.accounts.current.billing = {
-                                items:[]
+                                items:{}
                             }
                             this.store.accounts.current. shipping ={
                                 info:{
-                                    items:[]
+                                    items:{}
                                 },
                                 sameAsBilling:{
                                     checked:true
@@ -210,17 +211,19 @@ export class RyberService {
         },
         checkout:{
             billing:{
-                items:["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
-                .map((x:any,i)=>{
-                    let result = {
-                        placeholder:x,
-                        value:  "",
-                        blur:(evt:Event |any )=>{
-                            result.value = evt.target.value
+                items :Object.fromEntries(
+                    ["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+                    .map((x:string,i)=>{
+                        let result = {
+                            placeholder:x,
+                            value:  "",
+                            blur:(evt:Event |any )=>{
+                                result.value = evt.target.value
+                            }
                         }
-                    }
-                    return result
-                })
+                        return [x,result]
+                    })
+                )
             },
             shipping:{
                 sameAsBilling:{
@@ -230,17 +233,19 @@ export class RyberService {
                     }
                 },
                 info:{
-                    items:["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
-                    .map((x:any,i)=>{
-                        let result = {
-                            placeholder:x,
-                            value:"",
-                            blur:(evt:Event |any )=>{
-                                result.value = evt.target.value
+                    items:Object.fromEntries(
+                        ["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+                        .map((x:any,i)=>{
+                            let result = {
+                                placeholder:x,
+                                value:"",
+                                blur:(evt:Event |any )=>{
+                                    result.value = evt.target.value
+                                }
                             }
-                        }
-                        return result
-                    })
+                            return [x,result]
+                        })
+                    )
                 }
             },
             payment:{
@@ -266,21 +271,22 @@ export class RyberService {
                             }
                         })
                         let myBilling = {
-                            items:billing.items.map((x:any,i)=>{
-                                return {
-                                    name:x.placeholder,
-                                    value:x.value
-                                }
-                            })
+                            items:
+                            Object.fromEntries(
+                                Object.entries(billing.items)
+                                .map(([keyx,valx]:any,i)=>{
+                                    return [valx.placeholder,valx.value]
+                                })
+                            )
                         }
                         let myShipping = {
                             items:shipping.sameAsBilling.checked ? myBilling.items :
-                            shipping.info.items.map((x:any,i)=>{
-                                return {
-                                    name:x.placeholder,
-                                    value:x.value
-                                }
-                            }),
+                            Object.fromEntries(
+                                Object.entries(shipping.info.items)
+                                .map(([keyx,valx]:any,i)=>{
+                                    return [valx.placeholder,valx.value]
+                                })
+                            ),
                             sameAsBilling:shipping.sameAsBilling.checked
                         }
                         let myAcctCurrent = {
