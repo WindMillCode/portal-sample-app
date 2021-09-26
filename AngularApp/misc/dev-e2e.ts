@@ -41,13 +41,42 @@ of({})
 //
 
 
-// complete auth flow and checkout
+// complete auth flow and checkout creating several accounts
 of({})
 .pipe(
+    concatMap(()=>{
+        return of({})
+        .pipe(
+            delay(500),
+            tap(()=>{
+                ryber.store.accounts.ui.items
+                .forEach((x:any,i)=>{
+                    x.value = i===0 ?  faker.internet.userName() :
+                    faker.internet.password();
+
+                })
+                ref.detectChanges()
+                eventDispatcher({
+                    element:document.querySelectorAll(".a_p_p_CreateAcctPod0Button0")[0] as HTMLElement,
+                    event:"click"
+                })
+
+            }),
+            delay(500),
+            tap(()=>{
+                ryber.router.navigateByUrl("/create-acct")
+            }),
+            repeat(3)
+        )
+    }),
     exhaustMap(()=>{
         let counter = 0
         return of({})
         .pipe(
+            delay(3000),
+            tap(()=>{
+                ryber.router.navigateByUrl("/shop")
+            }),
             delay(500),
             tap(()=>{
                 eventDispatcher({
@@ -55,7 +84,7 @@ of({})
                     event:"click"
                 })
             }),
-            delay(500),
+            delay(1000),
             tap(()=>{
                 Array(Math.floor(Math.random()*5)).fill(null)
                 .forEach((x:any,i)=>{
@@ -73,7 +102,7 @@ of({})
             repeat(2)
         )
     }),
-    delay(3000),
+    delay(4000),
     tap(()=>{
         ryber.router.navigateByUrl("/checkout")
     }),
@@ -124,4 +153,34 @@ of({})
 .subscribe()
 //
 
-// create an account
+// create several  accounts
+of({})
+.pipe(
+    concatMap(()=>{
+        return of({})
+        .pipe(
+            delay(500),
+            tap(()=>{
+                ryber.store.accounts.ui.items
+                .forEach((x:any,i)=>{
+                    x.value = i===0 ?  faker.internet.userName() :
+                    faker.internet.password();
+
+                })
+                ref.detectChanges()
+                eventDispatcher({
+                    element:document.querySelectorAll(".a_p_p_CreateAcctPod0Button0")[0] as HTMLElement,
+                    event:"click"
+                })
+
+            }),
+            delay(500),
+            tap(()=>{
+                ryber.router.navigateByUrl("/create-acct")
+            }),
+            repeat(3)
+        )
+    })
+)
+.subscribe()
+//

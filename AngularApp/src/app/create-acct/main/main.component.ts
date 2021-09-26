@@ -3,6 +3,7 @@ import {fromEvent,iif,Subscription,of} from 'rxjs';
 import { RyberService } from 'src/app/ryber.service';
 import { classPrefix } from 'src/app/customExports';
 import { environment as env } from 'src/environments/environment';
+import {take, tap} from 'rxjs/operators'
 
 
 
@@ -55,6 +56,19 @@ export class MainComponent implements OnInit {
                     ryber.store.accounts.current[keyx]= valx
                 })
                 ryber.store.accounts.all.items.push(newAcct)
+                // XHR to create acct
+                ryber.http.put(
+                    `${env.backend.url}/users/create`,
+                    {
+                        data:newAcct
+                    }
+                )
+                .pipe(
+                    tap(console.log,console.error),
+                    take(1)
+                )
+                .subscribe()
+                //
                 console.log(newAcct)
                 ryber.router.navigateByUrl("/shop")
                 ref.detectChanges()

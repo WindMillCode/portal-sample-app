@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     startURL:"/create-acct",
     backend:{
-        url: "http://127.0.0.1:3005",
+        url: "http://127.0.0.1:5000",
     },
     logging:{
         url:"http://127.0.0.1:6111"

@@ -13,24 +13,6 @@ import pprint
 import requests
 import mimetypes
 from flask_socketio import SocketIO
-import boto3
-session_client = boto3.client(
-    'sts',
-    aws_access_key_id=    os.getenv('STS_CLIENT_ID'),
-    aws_secret_access_key=os.getenv('STS_ACCESS_KEY'),
-    region_name=os.getenv('S3_REGION_NAME')
-)
-session_info = session_client.get_session_token()
-session_token = session_info.get("Credentials").get("SessionToken")
-session_access_key_id = session_info.get("Credentials").get("AccessKeyId")
-session_secret_access_key = session_info.get("Credentials").get("SecretAccessKey")
-s3_client = boto3.client(
-    's3',
-    aws_access_key_id=    session_access_key_id,
-    aws_secret_access_key=session_secret_access_key,
-    aws_session_token=session_token,
-    region_name=os.getenv('S3_REGION_NAME')
-)
 #
 
 app = Flask(__name__)
@@ -57,6 +39,8 @@ class Products(db.Model):
 
     def any(self):
         return '<product itemId = {} ,title ={}, text={}, price={},>'.format(self.itemId, self.title, self.price)
+
+
 
 #function to list products
 def get_products():
