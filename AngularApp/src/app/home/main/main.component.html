@@ -1,0 +1,37 @@
+
+<main
+[class]= "prefix.main({val:''})"
+>
+    <section
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <div
+        [class]= "prefix.pods[0]({val:'Item0'})"
+        *ngFor="let item of home.topics.items"
+        >
+            <div
+            [class]= "prefix.pods[0]({val:'Item1'})"
+            >
+                <h2>{{item.text}}</h2>
+                <h3>Shop Now</h3>
+            </div>
+        </div>
+    </section>
+    <section
+    [class]= "prefix.pods[1]({val:''})"
+    >
+        <h1
+        [class]= "prefix.pods[1]({val:'Title0'})"
+        >New Products</h1>
+        <div
+        *ngFor="let item of home.products.new.items"
+        [class]= "prefix.pods[1]({val:'Item0'})"
+        >
+            <img
+            [class]= "prefix.pods[1]({val:'Img0'})"
+            [src]="item.img.src" />
+            <h2>{{item.title.text}}</h2>
+        </div>
+    </section>
+</main>
+

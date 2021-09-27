@@ -1,0 +1,22 @@
+<div
+[class]= "prefix.main({val:'Pod'})"
+>
+    <h1
+    [class]= "prefix.main({val:'Title0'})"
+    >LOGIN</h1>
+    <section
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <input
+        [value]="item.value"
+        (blur)="item.blur($event)"
+        [class]= "prefix.pods[0]({val:'Input0'})"
+        [placeholder]="item.placeholder"
+        *ngFor="let item of ryber.store.accounts.login.ui.items"
+        />
+        <button
+        (click)= "ryber.store.accounts.login.submit.click($event)"
+        [class]= "prefix.pods[0]({val:'Button0'})"
+        >Login</button>
+    </section>
+</div>

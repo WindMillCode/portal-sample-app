@@ -1,0 +1,22 @@
+<main
+[class]= "prefix.main({val:'Pod'})"
+>
+    <h1
+    [class]= "prefix.main({val:'Title0'})"
+    >CREATE ACCOUNT</h1>
+    <section
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <input
+        [value]="item.value"
+        (blur)="item.blur($event)"
+        [class]= "prefix.pods[0]({val:'Input0'})"
+        [placeholder]="item.placeholder"
+        *ngFor="let item of ryber.store.accounts.ui.items"
+        />
+        <button
+        (click)= "accounts.submit.click($event)"
+        [class]= "prefix.pods[0]({val:'Button0'})"
+        >Create Account</button>
+    </section>
+</main>

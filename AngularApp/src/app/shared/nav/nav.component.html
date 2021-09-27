@@ -1,0 +1,18 @@
+
+<section
+[class]= "prefix.main({val:'Pod'})"
+>
+    <div
+    [class]= "prefix.pods[0]({val:''})"
+    >
+        <div
+        *ngFor="let item of ryber.store.categories.items"
+        >
+            <a
+            [routerLink]="item.routerLink"
+            [class]= "prefix.pods[0]({val:'Link0'})"
+            >{{item.text}}</a>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,709 @@
+@use "sass:map";
+
+
+
+// @import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
+// @import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeicons/primeicons.css";
+@import "assets/styles/util";
+@import "assets/styles/fonts";
+
+:root{
+    --color0:black;
+    --color1:rgb(230, 232, 240);
+    --color2:white;
+    --color3:red;
+    --color4:green;
+
+    --width0:1200px;
+    --margin0:0 20px 0 0;
+    --margin1:20px 0 0 0;
+}
+
+@mixin flex-pattern-0{
+    width:100vw;
+    display: flex;
+}
+
+@mixin flex-pattern-1{
+    flex: 0 0 60%;
+    max-width: var(--width0);
+    display:flex;
+    padding:20px;
+
+}
+
+@mixin flex-pattern-2{
+    display:flex;
+    justify-content: center;
+    flex: 1 0 100%;
+    flex-wrap:wrap;
+}
+
+@mixin button-0{
+    padding:20px 0;
+}
+
+@mixin button-1{
+    padding:5px;
+}
+
+@function my_prod($step){
+    $type: prod;
+    $prod: (0:1s,1:all 3s);
+    $dev: (0:0s,1:none);
+    $answer: "";
+    @if $type == prod {
+        $answer: map.get($prod,$step);
+
+    }
+    @else if $type == dev {
+        $answer: map.get($dev,$step);
+
+    }
+    @return $answer;
+}
+
+
+
+.a_p_p_{
+    &Specific{
+        &0{
+            // ...
+        }
+
+    }
+
+    &Header{
+        &View{
+            position: relative;
+            width:100vw;
+            display: flex;
+            font-size:12px;
+            color:var(--color2);
+            z-index:5;
+        }
+        &Main{
+            &Pod{
+                background-color: var(--color0);
+                padding:20px;
+                height: 150px;
+                flex: 1  0 100%;
+                display:flex;
+                justify-content: center;
+            }
+        }
+        &Pod{
+            &0{
+                flex: 0 0 60%;
+                border:1px solid var(--color3);
+                display: flex;
+                max-width: var(--width0);
+                padding:10px;
+                align-items: flex-start;
+                flex-wrap: wrap;
+
+                &Item{
+                    &0{
+                        display: flex;
+                        justify-content: space-between;
+                        flex:1 0 100%;
+                    }
+
+                    &1{
+                        display: flex;
+                    }
+
+                    &2{
+                        display: flex;
+                    }
+
+                    &3{
+                        display: flex;
+                        flex:1 0 100%;
+                        justify-content: space-evenly;
+                    }
+
+                    &4{
+                        flex:0 0 40%;
+                        display:flex;
+                    }
+
+                    &5{
+                        background-color: var(--color1);
+                        height:200px;
+                        width: 200px;
+                        position:absolute;
+                        display:none;
+                        align-items: flex-end;
+
+                    }
+                }
+
+                &Input{
+                    &0{
+                        flex:1 0 40%;
+                    }
+                }
+
+                &Button{
+                    &0{
+
+                    }
+
+                    &1{
+                       flex: 0 0 50%;
+                       @include button-0;
+                       background: var(--radial-bg-darkblue);
+                       color:var(--color2);
+                       font-size:1.5em;
+                    }
+
+                    &2{
+                        flex: 0 0 50%;
+                        @include button-0;
+                        background: var(--radial-bg-red);
+                        color:var(--color2);
+                        font-size:1.5em;
+
+                     }
+                }
+
+                &Text{
+                    &0{
+                        font-size:1em ;
+                        margin:0 20px 0 0;
+                    }
+
+                    &1{
+                        font-size:3em;
+
+                    }
+                }
+            }
+        }
+    }
+
+    &Nav{
+        &View{
+            display: flex;
+            width: 100vw;
+
+        }
+        &Main{
+            &Pod{
+                display:flex;
+                padding:20px;
+                justify-content: center;
+                flex:1 0 100%;
+                border-bottom: 3px solid var(--color1);
+            }
+        }
+        &Pod{
+            &0{
+                display:flex;
+                flex: 0 0 60%;
+                max-width: var(--width0);
+
+                &Link{
+                    &0{
+                        margin:0 40px 0 0;
+
+                    }
+                }
+            }
+        }
+    }
+
+    &Home{
+        &View{
+            @include flex-pattern-0;
+            color:white;
+            margin:0 0 50px 0;
+        }
+        &Main{
+            &Pod{
+
+                display:flex;
+                justify-content: center;
+                flex: 1 0 100%;
+                flex-wrap:wrap;
+            }
+        }
+        &Pod{
+
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+                padding:20px;
+
+                &Item{
+                    &0{
+                        flex: 1 1 33%;
+                        display:flex;
+                        margin:0 20px 0 0;
+                    }
+
+                    &1{
+                        padding:40px;
+                        flex:1 0 100%;
+                        background-color: rgba(240, 52, 52, .8);
+                    }
+                }
+            }
+
+            &1{
+                color:black;
+                flex-wrap:wrap;
+
+
+                &Item{
+                    &0{
+                        border:2px solid var(--color1);
+                        flex: 1 1 30%;
+                        height:180px;
+                        margin:var(--margin0);
+                    }
+                }
+
+                &Title{
+                    &0{
+                        flex:1 0 100%;
+                        margin:0 0 20px 0;
+                    }
+                }
+
+                &Img{
+                    &0{
+                        width:inherit;
+                        height:inherit;
+                    }
+                }
+            }
+        }
+    }
+
+    &Footer{
+        &View{
+            @include flex-pattern-0;
+            color:white;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                display:flex;
+                justify-content: center;
+                flex: 1 0 100%;
+                flex-wrap:wrap;
+                background-color: var(--color0);
+            }
+        }
+        &Pod{
+            &0{
+                @include flex-pattern-1;
+                padding:40px 20px;
+
+
+                &Text{
+                    &0{
+                        font-size:.8em;
+                    }
+                }
+
+                &Item{
+
+                    @for $i from 0 through 3 {
+                        &#{$i}{
+                            flex: 0 0 25%;
+                            margin: var(--margin0);
+                            display: flex;
+                            flex-flow: column wrap;
+
+                            & *{
+                                margin:10px 0 0 0;
+                            }
+                        }
+                    }
+
+                    &0{
+
+
+                    }
+                }
+            }
+        }
+    }
+
+    &Shop{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2
+            }
+        }
+        &Pod{
+            &0{
+                @include flex-pattern-1;
+                flex-wrap:wrap;
+
+                &Item{
+                    &0{
+                        flex:0 0 30%;
+                        margin:20px 20px 0 0;
+                        border:2px solid var(--color1);
+                        @include flex-column-center;
+                        min-width:264px;
+
+                    }
+                }
+
+                &Img{
+                    &0{
+                        height:200px;
+                        width:100%;
+                    }
+                }
+
+                &Price{
+                    &0{
+                        width: 90%;
+                        margin:20px;
+                    }
+                }
+
+                &Button{
+                    &0{
+                        color:var(--color3);
+                        padding:20px 30px;
+                        border:3px solid var(--color3);
+                        font-size:1em;
+                    }
+                }
+            }
+        }
+    }
+
+    &Cart{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2;
+            }
+        }
+        &Pod{
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+
+                flex-wrap:wrap;
+
+                &Button{
+
+                    @for $i from 0 through 1 {
+                        &#{$i}{
+                            @include button-1;
+                            color:var(--color2);
+                        }
+                    }
+                    &0{
+                        background-color:var(--color3);
+                    }
+                    &1{
+                        background-color:var(--color4);
+                    }
+                }
+
+                &Text{
+                    &0{
+                        padding: 20px;
+                        background-color: var(--color0);
+                        color:white;
+                    }
+
+                    &1{
+                        width:400px
+                        // flex:1 0 100%;
+                    }
+
+                    &2{
+                        border:1px solid var(--color1);
+                        padding:20px 100px;
+                    }
+                }
+
+                &Img{
+                    &0{
+                        width:50px;
+                    }
+
+                }
+
+                &Input{
+                    &0{
+                        flex:0 0 20%;
+                        width:auto;
+                        min-width: 0;
+                        text-align: center;
+                    }
+                }
+
+                &Item{
+                    &0{
+                        flex:1 0 100%;
+                        display:flex;
+                        flex-flow: column wrap;
+                    }
+
+                    &1{
+                        border:2px solid var(--color1);
+                        height:100px;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    &2{
+                        border-radius: 10px;
+                        flex: 0 0 50%;
+                        display:flex;
+                        justify-content: center;
+                    }
+
+                    &3{
+                        display: flex;
+                    }
+
+                    &4{
+                        display: flex;
+                        justify-content: flex-end;
+                    }
+                    &5{
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+            }
+
+            &1{
+                justify-content: space-between;
+
+                &Button{
+
+                    @for $i from 0 through 1 {
+                        &#{$i}{
+                            @include button-1;
+                            color:var(--color2);
+                            font-size:1.5em;
+                        }
+                    }
+                    &0{
+                        background-color:var(--color3);
+                    }
+                    &1{
+                        background-color:var(--color4);
+                    }
+                }
+            }
+        }
+    }
+
+    &Checkout{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2;
+
+            }
+        }
+        &Pod{
+
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+                justify-content: space-between;
+
+                &Text{
+                    &0{
+                        margin:20px 0;
+                    }
+                    &1{
+                        margin:20px 0;
+                        flex:1 0 100%;
+                        @include tac;
+                    }
+                }
+                &Input{
+                    &0{
+                        margin:20px 0 0 0;
+                        padding:10px;
+                        font-size:1em;
+                    }
+                    &1{}
+                }
+
+                &Button{
+                    &0{
+                        padding:20px;
+                        color:var(--color3);
+                        border:1px solid var(--color3);
+                    }
+                }
+                &Item{
+                    &0{
+                        display:flex;
+                        flex-flow:column wrap;
+                        flex: 0 0 60%;
+                    }
+
+                    &1{
+                        display:flex;
+                        flex-wrap: wrap;
+                        flex: 0 0 38%;
+                        border: 1px solid var(--color1);
+                        padding :20px  ;
+                        justify-content: center;
+                        align-content: flex-start;
+                    }
+
+                    &2{
+                        display:flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        flex:1 0 100%;
+                        padding:20px 0 0 0;
+                    }
+                }
+            }
+
+            &1{
+                flex: 0 0 40%;
+            }
+        }
+    }
+
+    &CreateAcct{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2;
+                flex-wrap:wrap;
+            }
+
+            &Title{
+                &0{
+                    flex:1 0 100%;
+                    @include tac;
+                }
+            }
+        }
+        &Pod{
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+                flex-direction:column;
+
+
+                &Input{
+                    &0{
+                        margin:20px 0 0 0;
+                        padding:10px;
+                        font-size:1em;
+
+                    }
+                }
+
+                &Button{
+                    &0{
+                        @include button-0;
+                        background-color: var(--color4);
+                        margin:20px 0 0 0;
+                        width: 50%;
+                        align-self:center;
+                    }
+                }
+            }
+        }
+    }
+
+    &Login{
+        &View{
+            @include flex-pattern-0;
+            margin:0 0 50px 0;
+            font-size:16px;
+        }
+        &Main{
+            &Pod{
+                @include flex-pattern-2;
+            }
+
+            &Title{
+                &0{
+                    @include tac;
+                    margin:var(--margin1);
+                    flex:1 0 100%;
+                }
+            }
+        }
+        &Pod{
+            @for $i from 0 through 3 {
+                &#{$i}{
+                    @include flex-pattern-1;
+                }
+            }
+            &0{
+                flex-flow: column wrap;
+
+                &Input{
+                    &0{
+                        margin:20px 0 0 0;
+                        padding:10px;
+                        font-size:1em;
+
+                    }
+                }
+
+                &Button{
+                    &0{
+                        @include button-0;
+                        background-color: var(--color4);
+                        margin:20px 0 0 0;
+                        width: 50%;
+                        align-self:center;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
