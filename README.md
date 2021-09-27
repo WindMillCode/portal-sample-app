@@ -11,8 +11,11 @@ Only members of the project can read the README.md from the ignore folder
 ## Frontend
 * Angular v12.2.3
 ## Backend
-* python v3.9.6
-* tornado v 6.1.0
+* python v3.9.7
+* flask 2.0.1
+* sqlalchemy 1.4.25
+* marshmallow 3.13.0
+
 
 ## Testing
 * Docker, (tes in docker containers from linux VM) v20.10.7
