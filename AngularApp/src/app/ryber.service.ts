@@ -74,13 +74,13 @@ export class RyberService {
                         text:["$29.99","$29.99","$54.99","$54.99","$22.99","$25.99","$22.99"][i],
                         value:[29.99,29.99,54.99,54.99,22.99,25.99,22.99][i]
                     },
-                    addCart:{
+                    addItem:{
                         click:(evt:MouseEvent)=>{
 
-                            if(!result.addCart.inCart){
+                            if(!result.addItem.inCart){
                                 this.store.cart.items.push(result)
                                 this.router.navigateByUrl('/cart');
-                                result.addCart.inCart = true
+                                result.addItem.inCart = true
                             }
                             else{
                                 result.quantity.input.value += 1
@@ -158,7 +158,7 @@ export class RyberService {
                         click:(evt:MouseEvent)=>{
                             let index = this.store.cart.items.indexOf(result)
                             this.store.cart.items.splice(index,1)
-                            result.addCart.inCart = false
+                            result.addItem.inCart = false
                         }
                     },
                     quantity:{
