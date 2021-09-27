@@ -1,4 +1,5 @@
 from __main__ import app,db,ma,request,pprint,json,my_util
+from my_util import GUID
 
 
 class User(db.Model):
@@ -7,7 +8,7 @@ class User(db.Model):
     billing = db.Column(db.String(20000))
     shipping = db.Column(db.String(2000))
     shipping_same_as_billing = db.Column(db.Boolean)
-    cartId = db.Column(db.String(200), unique=True, nullable=True)
+    cartId = db.Column(GUID(), nullable=True)
 
     def __init__ (self, user, myPass, billing, shipping, shipping_same_as_billing):
         self.user = user
@@ -15,7 +16,7 @@ class User(db.Model):
         self.billing = billing
         self.shipping = shipping
         self.shipping_same_as_billing = shipping_same_as_billing
-        self.cartId = ""
+        
 
     def any(self):
         return '<user user = {} ,myPass ={}, billing={}, shipping={}, shipping_same_as_billing={},>'.format(self.user, self.myPass, self.billing, self.shipping, self.shipping_same_as_billing)
@@ -42,8 +43,8 @@ def create_user():
     db.session.commit()
     return {
         'message':{'message':'CREATED'},
-        'status':201
-    }
+
+    },201
 
 @app.route('/users/read',methods=['POST'])
 def read_user():
@@ -54,8 +55,8 @@ def read_user():
     if user is None:
         return {
             'message':{'message':'User not found'},
-            'status':404
-        }
+
+        },404
     elif user.myPass == mYpass:
         user.billing = json.loads(user.billing)
         user.shipping = json.loads(user.shipping)
@@ -64,8 +65,8 @@ def read_user():
                 'message':'OK',
                 'data':user_schema.dump(user)
             },
-            'status':200,
-        }
+
+        },200
 
 
 @app.route('/users/update',methods=['PATCH'])
@@ -79,8 +80,7 @@ def update_user():
     if update_user_class is None:
         return {
             'message':{'message':'User not found'},
-            'status':404
-        }
+        },404
     user_to_update = user_schema.dump(update_user_class)
     user_to_update["billing"] =  json.loads(user_to_update["billing"])
     user_to_update["shipping"] = json.loads(user_to_update["shipping"])
@@ -99,8 +99,8 @@ def update_user():
         'message':{
             'target':user_to_update
         },
-        'status':200
-    }
+
+    },200
 
 
 @app.route('/users/delete',methods=['DELETE'])
@@ -111,8 +111,7 @@ def delete_user():
     db.session.commit()
     return {
         'message':{'message':'DELETED'},
-        'status':200
-    }
+    },200
 
 
 @app.route('/users/list',methods=['POST'])
@@ -126,4 +125,4 @@ def list_users():
         'billing':json.loads(x.billing),
         'shipping':json.loads(x.shipping),
     } for x in users]
-    return users_schema.jsonify(users)
+    return users_schema.jsonify(users),200

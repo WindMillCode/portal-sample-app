@@ -17,7 +17,7 @@ class Cart(db.Model):
         self.total = total
 
     def any(self):
-        return '<cart cartId = {} ,quantity ={},>'.format(self.cartId, self.quantity)
+        return '<cart cartId = {} ,quantity ={}, total={}>'.format(self.cartId, self.quantity,self.total)
 
 class CartSchema(ma.Schema):
     class Meta:
@@ -37,7 +37,7 @@ def create_cart():
             cart =  json.dumps(cartData['cart']),
             total = cartData['total']
         )
-        cartId = newCart.cartId
+
         update_user_class = User.query.filter_by(user=userData['user']).first()
         if update_user_class is None:
             return {
@@ -45,32 +45,80 @@ def create_cart():
                 'status':404
             }
 
-        update_user_class.cartId = cartId
 
         db.session.add(newCart)
+        db.session.commit()
+
+        cartId = newCart.cartId
+        update_user_class.cartId = cartId
         db.session.flush()
         db.session.commit()
         return {
-            'status':200,
+
             'message':{
                 'message':'Cart created successfully',
                 'cartId':cartId
             }
-        }
+        },200
 
 @app.route('/cart/read',methods=['POST'])
 def read_cart():
-    
-    None
+    data  = request.json['data']
+    cart_id = data['cart_id']
+    cart = Cart.query.filter_by(cartId=cart_id).first()
+    if cart is None:
+        return {
+            'message':{'message':'Cart not found'},
+            'status':404
+        }
+    cart.cart = json.loads(cart.cart)
+    return {
+        'message':{
+            'message':'OK',
+            'data':cart_schema.dump(cart)
+        }
+    },200
 
 
 @app.route('/cart/update',methods=['PATCH'])
 def update_cart():
-    None
+    data = request.json['data']
+    cart_id = data['cart_id']
+    update_body = data['update_body']
+    update_cart_class = Cart.query.filter_by(cartId=cart_id).first()
+    if update_cart_class is None:
+        return {
+            'message':{'message':'Cart not found'},
+        },404
+    cart_to_update = cart_schema.dump(update_cart_class)
+    cart_to_update["cart"] = json.loads(cart_to_update["cart"])
+    cart_to_update = my_util.update_target(cart_to_update,update_body)
+
+    update_cart_class.cart = json.dumps(cart_to_update["cart"])
+    update_cart_class.total = cart_to_update["total"]
+    db.session.flush()
+    db.session.commit()
+    return {
+        'message':{
+            'target':cart_to_update
+        },
+
+    },200
 
 @app.route('/cart/delete',methods=['DELETE'])
 def delete_cart():
-    None
+    data  = request.json['data']
+    cart_id = data['cart_id']
+    cart = Cart.query.filter_by(cartId=cart_id).first()
+    if cart is None:
+        return {
+            'message':{'message':'Cart not found'},
+        },404
+    db.session.delete(cart)
+    db.session.commit()
+    return {
+        'message':{'message':'DELETED'},
+    },200
 
 @app.route('/cart/list',methods=['POST'])
 def list_carts():

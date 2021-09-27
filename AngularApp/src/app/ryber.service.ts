@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Event, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { iif, of } from 'rxjs';
 import { delay,tap } from 'rxjs/operators';
-import { mediaPrefix,RyberStore } from './customExports';
+import { cartCreate, mediaPrefix,RyberStore } from './customExports';
 import { environment as env } from 'src/environments/environment';
 
 
@@ -90,8 +90,9 @@ export class RyberService {
                             // XHR to add item to cart
                                 // there must be user
                             if(this.store.accounts.current.user){
-                                // if we dont have a cart id create a new cart
-                                if(this.store.cart.id === ""){
+                                // create or update cart depending on present id
+                                iif(
+                                    ()=>{return this.store.cart.id === ""},
                                     this.http.put(
                                         `${env.backend.url}/cart/create`,
                                         {
@@ -114,12 +115,39 @@ export class RyberService {
                                                 pass:this.store.accounts.current.pass
                                             }
                                         }
+                                    ),
+                                    this.http.patch(
+                                        `${env.backend.url}/cart/update`,
+                                        {
+                                            data:{
+                                                cart_id:this.store.cart.id,
+                                                update_body:{
+                                                    cart:this.store.cart.items
+                                                    .map((x:any,i)=>{
+                                                        return {
+                                                            img:x.img,
+                                                            price:x.price,
+                                                            quantity:{
+                                                                input:x.quantity.input
+                                                            },
+                                                            title:x.title
+                                                        }
+                                                    }),
+                                                    total:this.store.cart.total.value(),
+                                                }
+                                            }
+                                        }
                                     )
-                                    .pipe(
-                                        tap(console.log,console.error),
-                                    )
-                                    .subscribe()
-                                }
+                                )
+                                .pipe(
+                                    tap((result:cartCreate |any)=>{
+                                        if(this.store.cart.id === ""){
+                                            this.store.cart.id = result.message.cartId
+                                        }
+                                    },console.error),
+                                )
+                                .subscribe()
+
                             }
                             //
 

@@ -41,19 +41,26 @@ def update_dict(data, source):
 
 
 
-
-
-
 def update_target(data, source,repl= lambda x,y:  y):
     if isinstance(data, dict):
         for k, v in data.items():
             if k in source:
                 data[k] = update_target(v, source[k],repl)
         return data
-    elif isinstance(data, list):
-        return [update_target(x,source[i], repl) for i,x in enumerate(data)]
+    # elif isinstance(data, list):
+    #     if (len(data) < len(source)):
+    #         data = data[:len(source)]
+    #     return [update_target(x,source[i], repl) for i,x in enumerate(data)]
     else:
+        # just update the list
         return repl(data,source)
+
+
+
+
+
+
+
 
 # DEV ADDITIONS
 import sys

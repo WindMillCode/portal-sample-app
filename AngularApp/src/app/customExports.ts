@@ -94,6 +94,11 @@ export function accountMetadata(){
         })
     )
 }
+export type cartCreate = {
+    message:{
+        cartId:string
+    }
+}
 export type Account ={
     user:string,
     pass:string
