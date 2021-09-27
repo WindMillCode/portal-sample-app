@@ -168,5 +168,14 @@ export  type RyberStore = {
                 click: (evt:Event |any) => void;
             }
         }
+    },
+    cart:{
+        empty:boolean,
+        items:Array<any>,
+        total:{
+            value:()=>number,
+            text:()=>string
+        },
+        id:string
     }
 }

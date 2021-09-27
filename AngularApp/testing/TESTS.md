@@ -15,6 +15,7 @@
 
 ## Checkout
 * test on checkout we get the appropriate data
+* test that on checkout the user account object gets updated properly
 
 # Unit Tests
 

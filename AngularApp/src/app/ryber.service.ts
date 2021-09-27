@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { delay,tap } from 'rxjs/operators';
 import { mediaPrefix,RyberStore } from './customExports';
+import { environment as env } from 'src/environments/environment';
 
 
 
@@ -86,6 +87,42 @@ export class RyberService {
                                 this.router.navigateByUrl('/cart');
                             }
 
+                            // XHR to add item to cart
+                                // there must be user
+                            if(this.store.accounts.current.user){
+                                // if we dont have a cart id create a new cart
+                                if(this.store.cart.id === ""){
+                                    this.http.put(
+                                        `${env.backend.url}/cart/create`,
+                                        {
+                                            cartData:{
+                                                cart:this.store.cart.items
+                                                .map((x:any,i)=>{
+                                                    return {
+                                                        img:x.img,
+                                                        price:x.price,
+                                                        quantity:{
+                                                            input:x.quantity.input
+                                                        },
+                                                        title:x.title
+                                                    }
+                                                }),
+                                                total:this.store.cart.total.value(),
+                                            },
+                                            userData:{
+                                                user:this.store.accounts.current.user,
+                                                pass:this.store.accounts.current.pass
+                                            }
+                                        }
+                                    )
+                                    .pipe(
+                                        tap(console.log,console.error),
+                                    )
+                                    .subscribe()
+                                }
+                            }
+                            //
+
                         },
                         inCart:false
                     },
@@ -138,6 +175,7 @@ export class RyberService {
                 },0).toFixed(2),
                 text:()=>"$"+this.store.cart.total.value()
             },
+            id:""
 
         },
         accounts:{
@@ -214,7 +252,7 @@ export class RyberService {
             },
             all:{
                 items:[]
-            },
+        },
             current:{
 
             }
@@ -271,6 +309,7 @@ export class RyberService {
                 },
                 placeOrder:{
                     click:(evt:MouseEvent)=>{
+                        let {http}= this
                         let acctCurrent = this.store.accounts.current
                         let {billing,shipping} = this.store.checkout
                         let {items:cartItems,total:cartTotal} = this.store.cart
@@ -287,19 +326,23 @@ export class RyberService {
                             Object.fromEntries(
                                 Object.entries(billing.items)
                                 .map(([keyx,valx]:any,i)=>{
-                                    return [valx.placeholder,valx.value]
+                                    return [valx.key,valx.value]
                                 })
                             )
                         }
                         let myShipping = {
-                            items:shipping.sameAsBilling.checked ? myBilling.items :
-                            Object.fromEntries(
-                                Object.entries(shipping.info.items)
-                                .map(([keyx,valx]:any,i)=>{
-                                    return [valx.placeholder,valx.value]
-                                })
-                            ),
-                            sameAsBilling:shipping.sameAsBilling.checked
+                            info:{
+                                items:shipping.sameAsBilling.checked ? myBilling.items :
+                                Object.fromEntries(
+                                    Object.entries(shipping.info.items)
+                                    .map(([keyx,valx]:any,i)=>{
+                                        return [valx.key,valx.value]
+                                    })
+                                )
+                            },
+                            sameAsBilling:{
+                                checked:shipping.sameAsBilling.checked
+                            }
                         }
                         let myAcctCurrent = {
                             user:acctCurrent?.user || "guest",
@@ -313,7 +356,20 @@ export class RyberService {
                         )
 
                         // XHR to backend
-                        alert("check console log")
+                        http.patch(
+                            `${env.backend.url}/users/update`,
+                            {
+                                data:{
+                                    user:acctCurrent?.user,
+                                    myPass:acctCurrent?.pass,
+                                    update_body:myAcctCurrent
+                                }
+                            }
+                        )
+                        .pipe(
+                            tap(console.log,console.error)
+                        )
+                        .subscribe()
                         //
                     }
                 }
