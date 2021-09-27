@@ -86,8 +86,6 @@ type SamePropTypeOnly<T> = {
 }
 
 // types
-<<<<<<< HEAD
-=======
 export function accountMetadata(){
     return Object.fromEntries(
         ["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
@@ -101,7 +99,6 @@ export type cartCreate = {
         cartId:string
     }
 }
->>>>>>> michael-dev
 export type Account ={
     user:string,
     pass:string
@@ -176,8 +173,6 @@ export  type RyberStore = {
                 click: (evt:Event |any) => void;
             }
         }
-<<<<<<< HEAD
-=======
     },
     cart:{
         empty:boolean,
@@ -187,6 +182,5 @@ export  type RyberStore = {
             text:()=>string
         },
         id:string
->>>>>>> michael-dev
     }
 }
