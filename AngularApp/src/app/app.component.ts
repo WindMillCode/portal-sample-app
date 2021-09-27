@@ -75,15 +75,23 @@ export class AppComponent {
                         delay(500),
                         tap(()=>{
                             ryber.router.navigateByUrl("/create-acct")
+<<<<<<< HEAD
                         }),
                         repeat(3)
+=======
+                        })
+>>>>>>> michael-dev
                     )
                 }),
                 exhaustMap(()=>{
                     let counter = 0
                     return of({})
                     .pipe(
+<<<<<<< HEAD
                         delay(3000),
+=======
+                        delay(1000),
+>>>>>>> michael-dev
                         tap(()=>{
                             ryber.router.navigateByUrl("/shop")
                         }),

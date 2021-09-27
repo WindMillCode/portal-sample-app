@@ -1,7 +1,11 @@
 import { Component, OnInit,ChangeDetectionStrategy,ChangeDetectorRef,HostBinding, HostListener,ViewContainerRef } from '@angular/core';
 import {fromEvent,iif,Subscription,of} from 'rxjs';
 import { RyberService } from 'src/app/ryber.service';
+<<<<<<< HEAD
 import { classPrefix,Account } from 'src/app/customExports';
+=======
+import { classPrefix,Account,accountMetadata } from 'src/app/customExports';
+>>>>>>> michael-dev
 import { environment as env } from 'src/environments/environment';
 import {take, tap} from 'rxjs/operators'
 
@@ -39,11 +43,19 @@ export class MainComponent implements OnInit {
                     user:ryber.store.accounts.ui.items[0].value,
                     pass:ryber.store.accounts.ui.items[1].value,
                     billing:{
+<<<<<<< HEAD
                         items:{}
                     },
                     shipping:{
                         info:{
                             items:{}
+=======
+                        items:accountMetadata()
+                    },
+                    shipping:{
+                        info:{
+                            items:accountMetadata()
+>>>>>>> michael-dev
                         },
                         sameAsBilling:{
                             checked:true

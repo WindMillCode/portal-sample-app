@@ -15,6 +15,10 @@
 
 ## Checkout
 * test on checkout we get the appropriate data
+<<<<<<< HEAD
+=======
+* test that on checkout the user account object gets updated properly
+>>>>>>> michael-dev
 
 # Unit Tests
 

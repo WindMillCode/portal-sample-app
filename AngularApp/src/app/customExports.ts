@@ -86,6 +86,22 @@ type SamePropTypeOnly<T> = {
 }
 
 // types
+<<<<<<< HEAD
+=======
+export function accountMetadata(){
+    return Object.fromEntries(
+        ["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+        .map((x:any,i)=>{
+            return [x.toLowerCase().split(" ").join("_"),""]
+        })
+    )
+}
+export type cartCreate = {
+    message:{
+        cartId:string
+    }
+}
+>>>>>>> michael-dev
 export type Account ={
     user:string,
     pass:string
@@ -160,5 +176,17 @@ export  type RyberStore = {
                 click: (evt:Event |any) => void;
             }
         }
+<<<<<<< HEAD
+=======
+    },
+    cart:{
+        empty:boolean,
+        items:Array<any>,
+        total:{
+            value:()=>number,
+            text:()=>string
+        },
+        id:string
+>>>>>>> michael-dev
     }
 }

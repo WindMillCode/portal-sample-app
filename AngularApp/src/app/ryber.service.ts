@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Event, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+<<<<<<< HEAD
 import { of } from 'rxjs';
 import { delay,tap } from 'rxjs/operators';
 import { mediaPrefix,RyberStore } from './customExports';
+=======
+import { iif, of } from 'rxjs';
+import { delay,tap } from 'rxjs/operators';
+import { cartCreate, mediaPrefix,RyberStore } from './customExports';
+import { environment as env } from 'src/environments/environment';
+>>>>>>> michael-dev
 
 
 
@@ -73,6 +80,7 @@ export class RyberService {
                         text:["$29.99","$29.99","$54.99","$54.99","$22.99","$25.99","$22.99"][i],
                         value:[29.99,29.99,54.99,54.99,22.99,25.99,22.99][i]
                     },
+<<<<<<< HEAD
                     addCart:{
                         click:(evt:MouseEvent)=>{
 
@@ -80,12 +88,88 @@ export class RyberService {
                                 this.store.cart.items.push(result)
                                 this.router.navigateByUrl('/cart');
                                 result.addCart.inCart = true
+=======
+                    addItem:{
+                        click:(evt:MouseEvent)=>{
+
+                            if(!result.addItem.inCart){
+                                this.store.cart.items.push(result)
+                                this.router.navigateByUrl('/cart');
+                                result.addItem.inCart = true
+>>>>>>> michael-dev
                             }
                             else{
                                 result.quantity.input.value += 1
                                 this.router.navigateByUrl('/cart');
                             }
 
+<<<<<<< HEAD
+=======
+                            // XHR to add item to cart
+                                // there must be user
+                            if(this.store.accounts.current.user){
+                                // create or update cart depending on present id
+                                iif(
+                                    ()=>{return this.store.cart.id === ""},
+                                    this.http.put(
+                                        `${env.backend.url}/cart/create`,
+                                        {
+                                            cartData:{
+                                                cart:this.store.cart.items
+                                                .map((x:any,i)=>{
+                                                    return {
+                                                        img:x.img,
+                                                        price:x.price,
+                                                        quantity:{
+                                                            input:x.quantity.input
+                                                        },
+                                                        title:x.title
+                                                    }
+                                                }),
+                                                total:this.store.cart.total.value(),
+                                            },
+                                            userData:{
+                                                user:this.store.accounts.current.user,
+                                                pass:this.store.accounts.current.pass
+                                            }
+                                        }
+                                    ),
+                                    this.http.patch(
+                                        `${env.backend.url}/cart/update`,
+                                        {
+                                            data:{
+                                                cart_id:this.store.cart.id,
+                                                update_body:{
+                                                    cart:this.store.cart.items
+                                                    .map((x:any,i)=>{
+                                                        return {
+                                                            img:x.img,
+                                                            price:x.price,
+                                                            quantity:{
+                                                                input:x.quantity.input
+                                                            },
+                                                            title:x.title
+                                                        }
+                                                    }),
+                                                    total:this.store.cart.total.value(),
+                                                }
+                                            }
+                                        }
+                                    )
+                                )
+                                .pipe(
+                                    tap((result:cartCreate |any)=>{
+                                        if(this.store.cart.id === ""){
+                                            this.store.cart.id = result.message.cartId
+                                        }
+                                    },console.error),
+                                )
+                                .subscribe()
+
+                            }
+                            //
+
+>>>>>>> michael-dev
                         },
                         inCart:false
                     },
@@ -93,7 +177,11 @@ export class RyberService {
                         click:(evt:MouseEvent)=>{
                             let index = this.store.cart.items.indexOf(result)
                             this.store.cart.items.splice(index,1)
+<<<<<<< HEAD
                             result.addCart.inCart = false
+=======
+                            result.addItem.inCart = false
+>>>>>>> michael-dev
                         }
                     },
                     quantity:{
@@ -138,6 +226,10 @@ export class RyberService {
                 },0).toFixed(2),
                 text:()=>"$"+this.store.cart.total.value()
             },
+<<<<<<< HEAD
+=======
+            id:""
+>>>>>>> michael-dev
 
         },
         accounts:{
@@ -188,11 +280,29 @@ export class RyberService {
                             this.store.accounts.current.user = user
                             this.store.accounts.current.pass = pass
                             this.store.accounts.current.billing = {
+<<<<<<< HEAD
                                 items:{}
                             }
                             this.store.accounts.current. shipping ={
                                 info:{
                                     items:{}
+=======
+                                items:Object.fromEntries(
+                                    ["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+                                    .map((x:any,i)=>{
+                                        return [x.toLowerCase().split(" ").join("_"),""]
+                                    })
+                                )
+                            }
+                            this.store.accounts.current. shipping ={
+                                info:{
+                                    items:Object.fromEntries(
+                                        ["First Name","Last Name","Email","Phone","Address","City","State","Zip Code","Country"]
+                                        .map((x:any,i)=>{
+                                            return [x.toLowerCase().split(" ").join("_"),""]
+                                        })
+                                    )
+>>>>>>> michael-dev
                                 },
                                 sameAsBilling:{
                                     checked:true
@@ -204,7 +314,11 @@ export class RyberService {
             },
             all:{
                 items:[]
+<<<<<<< HEAD
             },
+=======
+        },
+>>>>>>> michael-dev
             current:{
 
             }
@@ -216,6 +330,10 @@ export class RyberService {
                     .map((x:string,i)=>{
                         let result = {
                             placeholder:x,
+<<<<<<< HEAD
+=======
+                            key:x.toLowerCase().split(" ").join("_"),
+>>>>>>> michael-dev
                             value:  "",
                             blur:(evt:Event |any )=>{
                                 result.value = evt.target.value
@@ -238,6 +356,10 @@ export class RyberService {
                         .map((x:any,i)=>{
                             let result = {
                                 placeholder:x,
+<<<<<<< HEAD
+=======
+                                key:x.toLowerCase().split(" ").join("_"),
+>>>>>>> michael-dev
                                 value:"",
                                 blur:(evt:Event |any )=>{
                                     result.value = evt.target.value
@@ -259,6 +381,10 @@ export class RyberService {
                 },
                 placeOrder:{
                     click:(evt:MouseEvent)=>{
+<<<<<<< HEAD
+=======
+                        let {http}= this
+>>>>>>> michael-dev
                         let acctCurrent = this.store.accounts.current
                         let {billing,shipping} = this.store.checkout
                         let {items:cartItems,total:cartTotal} = this.store.cart
@@ -275,11 +401,16 @@ export class RyberService {
                             Object.fromEntries(
                                 Object.entries(billing.items)
                                 .map(([keyx,valx]:any,i)=>{
+<<<<<<< HEAD
                                     return [valx.placeholder,valx.value]
+=======
+                                    return [valx.key,valx.value]
+>>>>>>> michael-dev
                                 })
                             )
                         }
                         let myShipping = {
+<<<<<<< HEAD
                             items:shipping.sameAsBilling.checked ? myBilling.items :
                             Object.fromEntries(
                                 Object.entries(shipping.info.items)
@@ -288,6 +419,20 @@ export class RyberService {
                                 })
                             ),
                             sameAsBilling:shipping.sameAsBilling.checked
+=======
+                            info:{
+                                items:shipping.sameAsBilling.checked ? myBilling.items :
+                                Object.fromEntries(
+                                    Object.entries(shipping.info.items)
+                                    .map(([keyx,valx]:any,i)=>{
+                                        return [valx.key,valx.value]
+                                    })
+                                )
+                            },
+                            sameAsBilling:{
+                                checked:shipping.sameAsBilling.checked
+                            }
+>>>>>>> michael-dev
                         }
                         let myAcctCurrent = {
                             user:acctCurrent?.user || "guest",
@@ -301,7 +446,24 @@ export class RyberService {
                         )
 
                         // XHR to backend
+<<<<<<< HEAD
                         alert("check console log")
+=======
+                        http.patch(
+                            `${env.backend.url}/users/update`,
+                            {
+                                data:{
+                                    user:acctCurrent?.user,
+                                    myPass:acctCurrent?.pass,
+                                    update_body:myAcctCurrent
+                                }
+                            }
+                        )
+                        .pipe(
+                            tap(console.log,console.error)
+                        )
+                        .subscribe()
+>>>>>>> michael-dev
                         //
                     }
                 }
