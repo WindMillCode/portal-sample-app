@@ -25,7 +25,7 @@ class Product(db.Model):
 
 
     def  any(self):
-        return '<pro'
+        return '<'
 
 class ProductSchema(ma.Schema):
     class Meta:
@@ -42,9 +42,15 @@ def create_product():
 def read_product():
     None
 
+
+
+
 @app.route('/product/update',methods=['PATCH'])
 def update_product():
     None
+
+
+
 
 @app.route('/product/delete',methods=['DELETE'])
 def delete_product():

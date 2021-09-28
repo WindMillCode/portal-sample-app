@@ -51,10 +51,11 @@ node_modules
 site-packages
 JudimaApp/issues/
 ignore
-__pycache__
+/__pycache__
 *.pcap
 AngularApp/misc/*.mp4*
 amplify/
+test.db.sqlite
 
 
 #amplify-do-not-edit-begin

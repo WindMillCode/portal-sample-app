@@ -137,7 +137,8 @@ export  type RyberStore = {
             items:Array<{
                 placeholder:string,
                 value:string,
-                blur:(evt:Event |any)=>void
+                blur:(evt:FocusEvent)=>void,
+                focusout:(evt:FocusEvent)=>void
             }>
         }
     },

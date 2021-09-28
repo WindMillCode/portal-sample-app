@@ -210,12 +210,19 @@ export class RyberService {
             ui:{
                 items:["Username","Password"]
                 .map((x:any,i)=>{
+                    let [focusout, blur] = Array(2).fill(
+                        (evt:Event |any )=>{
+
+                            result.value = evt.target.value
+                        }
+
+                    )
+
                     let result = {
                         placeholder:x,
                         value:  "",
-                        blur:(evt:Event |any )=>{
-                            result.value = evt.target.value
-                        }
+                        focusout,
+                        blur
                     }
                     return result
                 })
@@ -232,12 +239,17 @@ export class RyberService {
                 ui:{
                     items:["Username","Password"]
                     .map((x:any,i)=>{
+                        let [focusout, blur] = Array(2).fill(
+                            (evt:Event |any )=>{
+                                
+                                result.value = evt.target.value
+                            }
+
+                        )
                         let result = {
                             placeholder:x,
                             value:  "",
-                            blur:(evt:Event |any )=>{
-                                result.value = evt.target.value
-                            }
+                            focusout,blur
                         }
                         return result
                     })

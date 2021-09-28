@@ -16,7 +16,7 @@ class User(db.Model):
         self.billing = billing
         self.shipping = shipping
         self.shipping_same_as_billing = shipping_same_as_billing
-        
+
 
     def any(self):
         return '<user user = {} ,myPass ={}, billing={}, shipping={}, shipping_same_as_billing={},>'.format(self.user, self.myPass, self.billing, self.shipping, self.shipping_same_as_billing)
@@ -27,6 +27,8 @@ class UserSchema(ma.Schema):
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
+
+
 
 
 @app.route('/users/create',methods=['PUT'])
@@ -45,6 +47,8 @@ def create_user():
         'message':{'message':'CREATED'},
 
     },201
+
+
 
 @app.route('/users/read',methods=['POST'])
 def read_user():
@@ -84,8 +88,12 @@ def update_user():
     user_to_update = user_schema.dump(update_user_class)
     user_to_update["billing"] =  json.loads(user_to_update["billing"])
     user_to_update["shipping"] = json.loads(user_to_update["shipping"])
+
+
+
     user_to_update =  my_util.update_target(user_to_update,update_body)
-    # user_to_update = my_util.update_dict(user_to_update,update_body)
+
+
 
     update_user_class.user = user_to_update["user"]
     update_user_class.myPass = user_to_update["myPass"]

@@ -52,6 +52,7 @@ export class AppComponent {
         let {ryber,ref} = this
         // e2e automation tests you wnat to remove these
         if(!env.production){
+            return 
             of({})
             .pipe(
                 concatMap(()=>{
