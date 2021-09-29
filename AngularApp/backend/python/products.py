@@ -73,13 +73,13 @@ def update_product(productId):
 
 		try: 
 			db.session.commit()
-			return redirect('/')
+			return redirect('/product/read/<int:productId>')
 		except:
 			return 'there was an error updating your product'  
 	else:
-		return render_template('update.html', product_to_update=product_to_update)
-	
-
+		return render_template('/update.html', product_to_update=product_to_update)
+#frontend will be doing all the updating the database will just save the updated product such is the purpose of /update endpoint
+#which is in refence to the frontend..
 
 
 @app.route('/product/delete/<int:productId>') #alternatively you could use the uuid
