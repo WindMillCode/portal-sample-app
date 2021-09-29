@@ -75,7 +75,7 @@ def update_product(productId):
 			db.session.commit()
 			return redirect('/')
 		except:
-			return 'there was an error updating your task'  
+			return 'there was an error updating your product'  
 	else:
 		return render_template('update.html', product_to_update=product_to_update)
 	
