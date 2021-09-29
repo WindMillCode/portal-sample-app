@@ -70,9 +70,9 @@ nested Loops
 part 1 
 [UPDATE] - any bug free updates
 [PATCH]  - any partial fixes that invovles tradeoffs
-[STITCH] - any partial fixes that has issues to address
+[BROKEN] - any partial fixes that has issues to address
 [FIX]    - meaninfgul complete fixes
-
+[COMPLEX MERGE] - do not pull from here complex merging took place
 
 part 2
 {frontend} {backend} {CI/CD} {testing} {logging}
