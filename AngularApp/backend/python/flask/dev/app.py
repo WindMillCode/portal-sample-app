@@ -28,7 +28,7 @@ db=SQLAlchemy(app)
 ma = Marshmallow(app)
 import users
 import cart
-#
+import products
 
 db.create_all()
 
