@@ -133,4 +133,9 @@ def list_users():
         'billing':json.loads(x.billing),
         'shipping':json.loads(x.shipping),
     } for x in users]
-    return users_schema.jsonify(users),200
+    # users = users_schema.jsonify(users)
+    return{
+        'message':{
+            'list':users
+        }
+    }, 200

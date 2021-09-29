@@ -3,7 +3,7 @@ import { Event, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { iif, of } from 'rxjs';
 import { delay,tap } from 'rxjs/operators';
-import { cartCreate, mediaPrefix,RyberStore } from './customExports';
+import { cartCreate, mediaPrefix,RyberStore,RyberProductsItems } from './customExports';
 import { environment as env } from 'src/environments/environment';
 
 
@@ -53,11 +53,11 @@ export class RyberService {
             })
         },
         products:{
-            items:["QR Code 1","QR Code 2","NFT 1", "NFT 2","T-shirt 1","T shirt 2","T -shirt 3"]
-            .map((x:any,i)=>{
-                let result ={
+            items:Array(0).fill(null)
+            .map((x:string,i)=>{
+                let result:RyberProductsItems ={
                     title:{
-                        text:x
+                        text:["QR Code 1","QR Code 2","NFT 1", "NFT 2","T-shirt 1","T shirt 2","T -shirt 3"][i]
                     },
                     img:{
                         src:[
@@ -166,6 +166,9 @@ export class RyberService {
                             value:1,
                             blur:(evt:FocusEvent |any)=>{
                                 result.quantity.input.value = evt.target.value
+                            },
+                            focusout:(evt:FocusEvent |any)=>{
+                                result.quantity.input.value = evt.target.value
                             }
                         },
                         add:{
@@ -241,7 +244,7 @@ export class RyberService {
                     .map((x:any,i)=>{
                         let [focusout, blur] = Array(2).fill(
                             (evt:Event |any )=>{
-                                
+
                                 result.value = evt.target.value
                             }
 

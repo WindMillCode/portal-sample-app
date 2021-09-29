@@ -55,6 +55,7 @@
                             <input
                             type="number"
                             (blur)="y.quantity.input.blur($event)"
+                            (focusout)="y.quantity.input.focusout($event)"
                             [class]= "prefix.pods[0]({val:'Input0'})"
                             [value]="y.quantity.input.value"
                             />

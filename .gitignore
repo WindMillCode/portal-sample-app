@@ -51,12 +51,12 @@ node_modules
 site-packages
 JudimaApp/issues/
 ignore
-AngularApp/backend/python/flask/dev/__pycache__
 *.pcap
 AngularApp/misc/*.mp4*
 amplify/
-test.db.sqlite
-
+__pycache__/
+*.pyc
+*test.db.sqlite*
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
