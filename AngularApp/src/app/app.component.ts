@@ -5,7 +5,7 @@ import {Route} from '@angular/router';
 import { eventDispatcher,numberParse } from './customExports';
 import { of,Subscription,fromEvent } from 'rxjs';
 import { delay,tap,repeat ,concatMap, exhaust, exhaustMap} from 'rxjs/operators';
-import faker from 'faker';
+import faker from 'faker'; 
 
 
 
@@ -52,7 +52,7 @@ export class AppComponent {
         let {ryber,ref} = this
         // e2e automation tests you wnat to remove these
         if(!env.production){
-            return 
+            return
             of({})
             .pipe(
                 concatMap(()=>{

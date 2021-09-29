@@ -51,7 +51,7 @@ node_modules
 site-packages
 JudimaApp/issues/
 ignore
-/__pycache__
+AngularApp/backend/python/flask/dev/__pycache__
 *.pcap
 AngularApp/misc/*.mp4*
 amplify/
