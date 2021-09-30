@@ -105,10 +105,13 @@ export type Account ={
     user:string,
     pass:string
     billing:{
-        items: { [k: string]: {
-            placeholder: string;
-            value: string;
-            blur: (evt:Event |any) => void; };
+        items: {
+             [k: string]: {
+                placeholder: string;
+                value: string;
+                blur: (evt:Event |any) => void;
+                focusout: (evt:FocusEvent|any) => void;
+            };
         }
     },
     shipping:{
@@ -116,10 +119,13 @@ export type Account ={
             checked:boolean,
         },
         info:{
-            items:{ [k: string]: {
-                placeholder: string;
-                value: string;
-                blur: (evt:Event |any) => void; };
+            items:{
+                [k: string]: {
+                    placeholder: string;
+                    value: string;
+                    blur: (evt:Event |any) => void;
+                    focusout: (evt:FocusEvent|any) => void;
+                };
             }
         }
     },
@@ -183,10 +189,14 @@ export  type RyberStore = {
     },
     checkout:{
         billing:{
-            items: { [k: string]: {
-                placeholder: string;
-                value: string;
-                blur: (evt:Event |any) => void; };
+            items: {
+                [k: string]: {
+                    placeholder: string;
+                    value: string;
+                    blur: (evt:Event |any) => void;
+                    focusout: (evt:FocusEvent) => void;
+                };
+
             }
         },
         shipping:{
@@ -195,10 +205,13 @@ export  type RyberStore = {
                 change: (evt:Event |any) => void;
             },
             info:{
-                items:{ [k: string]: {
-                    placeholder: string;
-                    value: string;
-                    blur: (evt:Event |any) => void; };
+                items:{
+                    [k: string]: {
+                        placeholder: string;
+                        value: string;
+                        blur: (evt:Event |any) => void;
+                        focusout: (evt:FocusEvent) => void;
+                    };
                 }
             }
         },
@@ -224,7 +237,8 @@ export  type RyberStore = {
         id:string
     },
     products:{
-        items:Array<RyberProductsItems>
+        items:Array<RyberProductsItems>,
+        loaded:boolean
     }
 }
 

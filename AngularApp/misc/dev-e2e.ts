@@ -64,15 +64,14 @@ of({})
             delay(500),
             tap(()=>{
                 ryber.router.navigateByUrl("/create-acct")
-            }),
-            repeat(3)
+            })
         )
     }),
     exhaustMap(()=>{
         let counter = 0
         return of({})
         .pipe(
-            delay(3000),
+            delay(1000),
             tap(()=>{
                 ryber.router.navigateByUrl("/shop")
             }),
@@ -108,7 +107,8 @@ of({})
     delay(500),
     tap(()=>{
         let {billing,shipping} = ryber.store.checkout
-        billing.items.forEach((x:any,i)=>{
+        Object.values(billing.items)
+        .forEach((x:any,i)=>{
             x.value = [
                 faker.name.firstName(),
                 faker.name.lastName(),
@@ -127,7 +127,8 @@ of({})
 
             (document.querySelector(".a_p_p_CheckoutPod0Input1") as HTMLInputElement).click() ;
 
-            shipping.info.items.forEach((x:any,i)=>{
+            Object.values(shipping.info.items)
+            .forEach((x:any,i)=>{
                 x.value = [
                     faker.name.firstName(),
                     faker.name.lastName(),
@@ -186,8 +187,6 @@ of({})
 
 
 // sample populate ryber.store.products.items
-
-
 ryber.store.products.items =Array(7).fill(null)
 .map((x:string,i)=>{
     let result:RyberProductsItems ={
@@ -332,6 +331,4 @@ ryber.store.products.items =Array(7).fill(null)
     return result
 })
 ref.detectChanges()
-
-
 //

@@ -167,6 +167,24 @@ Session 5 (Logging)
 ## Snippets
 * general snippets found in planning in the trello workspace
 
+* update user billing and shipping
+```ts
+    http.patch(
+        `${env.backend.url}/users/update`,
+        {
+            data:{
+                user:acctCurrent?.user,
+                myPass:acctCurrent?.pass,
+                update_body:myAcctCurrent
+            }
+        }
+    )
+    .pipe(
+        tap(console.log,console.error)
+    )
+    .subscribe()
+```
+
 ## Media 
 
 [home_0.jpg]

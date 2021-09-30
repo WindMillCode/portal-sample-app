@@ -30,11 +30,14 @@ ma = Marshmallow(app)
 import users
 import cart
 import products
+import orders
 import my_init
 #
 
 db.create_all()
 my_init.init_products()
+my_init.init_orders()
+my_init.init_users()
 
 
 

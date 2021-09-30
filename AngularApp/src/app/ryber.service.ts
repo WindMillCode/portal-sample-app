@@ -53,149 +53,8 @@ export class RyberService {
             })
         },
         products:{
-            items:Array(0).fill(null)
-            .map((x:string,i)=>{
-                let result:RyberProductsItems ={
-                    title:{
-                        text:["QR Code 1","QR Code 2","NFT 1", "NFT 2","T-shirt 1","T shirt 2","T -shirt 3"][i]
-                    },
-                    img:{
-                        src:[
-                            mediaPrefix({media:'shop_1.png'}),
-                            mediaPrefix({media:'shop_1.png'}),
-                            mediaPrefix({media:'shop_0.jpg'}),
-                            mediaPrefix({media:'shop_0.jpg'}),
-                            mediaPrefix({media:'shop_2.jpg'}),
-                            mediaPrefix({media:'shop_3.jpg'}),
-                            mediaPrefix({media:'shop_4.jpg'}),
-                        ][i]
-                    },
-                    price:{
-                        text:["$29.99","$29.99","$54.99","$54.99","$22.99","$25.99","$22.99"][i],
-                        value:[29.99,29.99,54.99,54.99,22.99,25.99,22.99][i]
-                    },
-                    addItem:{
-                        click:(evt:MouseEvent)=>{
-
-                            if(!result.addItem.inCart){
-                                this.store.cart.items.push(result)
-                                this.router.navigateByUrl('/cart');
-                                result.addItem.inCart = true
-                            }
-                            else{
-                                result.quantity.input.value += 1
-                                this.router.navigateByUrl('/cart');
-                            }
-
-                            // XHR to add item to cart
-                                // there must be user
-                            if(this.store.accounts.current.user){
-                                // create or update cart depending on present id
-                                iif(
-                                    ()=>{return this.store.cart.id === ""},
-                                    this.http.put(
-                                        `${env.backend.url}/cart/create`,
-                                        {
-                                            cartData:{
-                                                cart:this.store.cart.items
-                                                .map((x:any,i)=>{
-                                                    return {
-                                                        img:x.img,
-                                                        price:x.price,
-                                                        quantity:{
-                                                            input:x.quantity.input
-                                                        },
-                                                        title:x.title
-                                                    }
-                                                }),
-                                                total:this.store.cart.total.value(),
-                                            },
-                                            userData:{
-                                                user:this.store.accounts.current.user,
-                                                pass:this.store.accounts.current.pass
-                                            }
-                                        }
-                                    ),
-                                    this.http.patch(
-                                        `${env.backend.url}/cart/update`,
-                                        {
-                                            data:{
-                                                cart_id:this.store.cart.id,
-                                                update_body:{
-                                                    cart:this.store.cart.items
-                                                    .map((x:any,i)=>{
-                                                        return {
-                                                            img:x.img,
-                                                            price:x.price,
-                                                            quantity:{
-                                                                input:x.quantity.input
-                                                            },
-                                                            title:x.title
-                                                        }
-                                                    }),
-                                                    total:this.store.cart.total.value(),
-                                                }
-                                            }
-                                        }
-                                    )
-                                )
-                                .pipe(
-                                    tap((result:cartCreate |any)=>{
-                                        if(this.store.cart.id === ""){
-                                            this.store.cart.id = result.message.cartId
-                                        }
-                                    },console.error),
-                                )
-                                .subscribe()
-
-                            }
-                            //
-
-                        },
-                        inCart:false
-                    },
-                    removeItem:{
-                        click:(evt:MouseEvent)=>{
-                            let index = this.store.cart.items.indexOf(result)
-                            this.store.cart.items.splice(index,1)
-                            result.addItem.inCart = false
-                        }
-                    },
-                    quantity:{
-                        input:{
-                            value:1,
-                            blur:(evt:FocusEvent |any)=>{
-                                result.quantity.input.value = evt.target.value
-                            },
-                            focusout:(evt:FocusEvent |any)=>{
-                                result.quantity.input.value = evt.target.value
-                            }
-                        },
-                        add:{
-                            click:(evt:MouseEvent)=>{
-                                result.quantity.input.value++
-                            }
-                        },
-                        remove:{
-                            click:(evt:MouseEvent)=>{
-                                if(result.quantity.input.value>1){
-                                    result.quantity.input.value--
-                                }
-                            }
-                        }
-                    },
-                    subtotal:{
-                        text:()=>{
-                            return "$"+result.subtotal.value()
-                        },
-                        value:()=>{
-                            let value = (result.price.value*result.quantity.input.value).toFixed(2)
-                            return parseFloat(value)
-                        }
-                    }
-                }
-                return result
-            })
+            items:[],
+            loaded:false
         },
         cart:{
             empty:true,
@@ -311,7 +170,10 @@ export class RyberService {
                             value:  "",
                             blur:(evt:Event |any )=>{
                                 result.value = evt.target.value
-                            }
+                            },
+                            focusout:(evt:FocusEvent |any )=>{
+                                result.value = evt.target.value
+                            },
                         }
                         return [x,result]
                     })
@@ -334,7 +196,10 @@ export class RyberService {
                                 value:"",
                                 blur:(evt:Event |any )=>{
                                     result.value = evt.target.value
-                                }
+                                },
+                                focusout:(evt:FocusEvent |any )=>{
+                                    result.value = evt.target.value
+                                },
                             }
                             return [x,result]
                         })
@@ -389,6 +254,7 @@ export class RyberService {
                         }
                         let myAcctCurrent = {
                             user:acctCurrent?.user || "guest",
+                            myPass:acctCurrent?.pass,
                             billing:myBilling,
                             shipping:myShipping
                         }
@@ -399,20 +265,23 @@ export class RyberService {
                         )
 
                         // XHR to backend
-                        http.patch(
-                            `${env.backend.url}/users/update`,
-                            {
-                                data:{
-                                    user:acctCurrent?.user,
-                                    myPass:acctCurrent?.pass,
-                                    update_body:myAcctCurrent
+                            // create an order
+                            http.put(
+                                `${env.backend.url}/order/create`,
+                                {
+                                    data:{
+                                        user:acctCurrent?.user || "guest",
+                                        cart:myCartItems,
+                                        billing:myBilling,
+                                        shipping:myShipping,
+                                        total:cartTotal.value()
+                                    }
                                 }
-                            }
-                        )
-                        .pipe(
-                            tap(console.log,console.error)
-                        )
-                        .subscribe()
+                            )
+                            .pipe(
+                                tap(console.log,console.error)
+                            )
+                            .subscribe()
                         //
                     }
                 }

@@ -3,7 +3,7 @@ import {fromEvent,iif,Subscription,of} from 'rxjs';
 import { RyberService } from 'src/app/ryber.service';
 import { classPrefix,RyberProductsItems,cartCreate } from 'src/app/customExports';
 import { environment as env } from 'src/environments/environment';
-import {take, tap} from 'rxjs/operators';
+import {retry, take, tap,delay} from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import {populateProducts} from 'src/app/customExports'
 
@@ -43,74 +43,52 @@ export class MainComponent implements OnInit {
     ngOnInit(): void {
         let {ryber,ref}= this
         // xhr for the products
-        ryber.http.post(
-            `${env.backend.url}/product/list`,
-            {}
-        )
-        .pipe(
-            tap(
-                (result:any)=>{
-                    // update the prducts.items
-                    ryber.store.products.items = result.message.list
-                    .map((x:any,i)=>{
-                        let ans:RyberProductsItems = {
-                            title:{
-                                text:x.title
-                            },
-                            img:{
-                                src:x.img_url
-                            },
-                            price:{
-                                text:`$${x.price}`,
-                                value:x.price
-                            },
-                            addItem:{
-                                click:(evt:MouseEvent)=>{
-                                    if(!result.addItem.inCart){
-                                        ryber.store.cart.items.push(result)
-                                        ryber.router.navigateByUrl('/cart');
-                                        result.addItem.inCart = true
-                                    }
-                                    else{
-                                        result.quantity.input.value += 1
-                                        ryber.router.navigateByUrl('/cart');
-                                    }
+        if(!ryber.store.products.loaded){
+            ryber.store.products.loaded = true
+            ryber.http.post(
+                `${env.backend.url}/product/list`,
+                {}
+            )
+            .pipe(
+                retry(2),
+                tap(
+                    (result:any)=>{
+                        // update the prducts.items
+                        ryber.store.products.items = result.message.list
+                        .map((x:any,i)=>{
+                            let result:RyberProductsItems = {
+                                title:{
+                                    text:x.title
+                                },
+                                img:{
+                                    src:x.img_url
+                                },
+                                price:{
+                                    text:`$${x.price}`,
+                                    value:x.price
+                                },
+                                addItem:{
+                                    click:(evt:MouseEvent)=>{
+                                        if(!result.addItem.inCart){
+                                            ryber.store.cart.items.push(result)
+                                            ryber.router.navigateByUrl('/cart');
+                                            result.addItem.inCart = true
+                                        }
+                                        else{
+                                            result.quantity.input.value += 1
+                                            ryber.router.navigateByUrl('/cart');
+                                        }
 
-                                // XHR to add item to cart
-                                    // there must be user
-                                    if(ryber.store.accounts.current.user){
-                                        // create or update cart depending on present id
-                                        iif(
-                                            ()=>{return ryber.store.cart.id === ""},
-                                            ryber.http.put(
-                                                `${env.backend.url}/cart/create`,
-                                                {
-                                                    cartData:{
-                                                        cart:ryber.store.cart.items
-                                                        .map((x:any,i)=>{
-                                                            return {
-                                                                img:x.img,
-                                                                price:x.price,
-                                                                quantity:{
-                                                                    input:x.quantity.input
-                                                                },
-                                                                title:x.title
-                                                            }
-                                                        }),
-                                                        total:ryber.store.cart.total.value(),
-                                                    },
-                                                    userData:{
-                                                        user:ryber.store.accounts.current.user,
-                                                        pass:ryber.store.accounts.current.pass
-                                                    }
-                                                }
-                                            ),
-                                            ryber.http.patch(
-                                                `${env.backend.url}/cart/update`,
-                                                {
-                                                    data:{
-                                                        cart_id:ryber.store.cart.id,
-                                                        update_body:{
+                                    // XHR to add item to cart
+                                        // there must be user
+                                        if(ryber.store.accounts.current.user){
+                                            // create or update cart depending on present id
+                                            iif(
+                                                ()=>{return ryber.store.cart.id === ""},
+                                                ryber.http.put(
+                                                    `${env.backend.url}/cart/create`,
+                                                    {
+                                                        cartData:{
                                                             cart:ryber.store.cart.items
                                                             .map((x:any,i)=>{
                                                                 return {
@@ -123,78 +101,104 @@ export class MainComponent implements OnInit {
                                                                 }
                                                             }),
                                                             total:ryber.store.cart.total.value(),
+                                                        },
+                                                        userData:{
+                                                            user:ryber.store.accounts.current.user,
+                                                            pass:ryber.store.accounts.current.pass
                                                         }
                                                     }
-                                                }
+                                                ),
+                                                ryber.http.patch(
+                                                    `${env.backend.url}/cart/update`,
+                                                    {
+                                                        data:{
+                                                            cart_id:ryber.store.cart.id,
+                                                            update_body:{
+                                                                cart:ryber.store.cart.items
+                                                                .map((x:any,i)=>{
+                                                                    return {
+                                                                        img:x.img,
+                                                                        price:x.price,
+                                                                        quantity:{
+                                                                            input:x.quantity.input
+                                                                        },
+                                                                        title:x.title
+                                                                    }
+                                                                }),
+                                                                total:ryber.store.cart.total.value(),
+                                                            }
+                                                        }
+                                                    }
+                                                )
                                             )
-                                        )
-                                        .pipe(
-                                            tap((result:cartCreate |any)=>{
-                                                if(ryber.store.cart.id === ""){
-                                                    ryber.store.cart.id = result.message.cartId
-                                                }
-                                            },console.error),
-                                        )
-                                        .subscribe()
+                                            .pipe(
+                                                tap((result:cartCreate |any)=>{
+                                                    if(ryber.store.cart.id === ""){
+                                                        ryber.store.cart.id = result.message.cartId
+                                                    }
+                                                },console.error),
+                                            )
+                                            .subscribe()
 
-                                    }
-                                    //
-                                },
-                                inCart:false
-                            },
-                            removeItem:{
-                                click:(evt:MouseEvent)=>{
-                                    let index = ryber.store.cart.items.indexOf(result)
-                                    ryber.store.cart.items.splice(index,1)
-                                    result.addItem.inCart = false
-                                }
-                            },
-                            quantity:{
-                                input:{
-                                    value:1,
-                                    blur:(evt:FocusEvent |any)=>{
-                                        result.quantity.input.value = evt.target.value
+                                        }
+                                        //
                                     },
-                                    focusout:(evt:FocusEvent |any)=>{
-                                        result.quantity.input.value = evt.target.value
+                                    inCart:false
+                                },
+                                removeItem:{
+                                    click:(evt:MouseEvent)=>{
+                                        let index = ryber.store.cart.items.indexOf(result)
+                                        ryber.store.cart.items.splice(index,1)
+                                        result.addItem.inCart = false
                                     }
                                 },
-                                add:{
-                                    click:(evt:MouseEvent)=>{
-                                        result.quantity.input.value++
-                                    }
-                                },
-                                remove:{
-                                    click:(evt:MouseEvent)=>{
-                                        if(result.quantity.input.value>1){
-                                            result.quantity.input.value--
+                                quantity:{
+                                    input:{
+                                        value:1,
+                                        blur:(evt:FocusEvent |any)=>{
+                                            result.quantity.input.value = evt.target.value
+                                        },
+                                        focusout:(evt:FocusEvent |any)=>{
+                                            result.quantity.input.value = evt.target.value
+                                        }
+                                    },
+                                    add:{
+                                        click:(evt:MouseEvent)=>{
+                                            result.quantity.input.value++
+                                        }
+                                    },
+                                    remove:{
+                                        click:(evt:MouseEvent)=>{
+                                            if(result.quantity.input.value>1){
+                                                result.quantity.input.value--
+                                            }
                                         }
                                     }
-                                }
-                            },
-                            subtotal:{
-                                text:()=>{
-                                    return "$"+result.subtotal.value()
                                 },
-                                value:()=>{
-                                    let value = (result.price.value*result.quantity.input.value).toFixed(2)
-                                    return parseFloat(value)
+                                subtotal:{
+                                    text:()=>{
+                                        return "$"+result.subtotal.value()
+                                    },
+                                    value:()=>{
+                                        let value = (result.price.value*result.quantity.input.value).toFixed(2)
+                                        return parseFloat(value)
+                                    }
                                 }
                             }
-                        }
-                        return ans
-                    })
-                    ref.detectChanges()
-                    //
+                            return result
+                        })
+                        ref.detectChanges()
+                        //
 
-                },
-                (err:HttpErrorResponse)=>{
-                    populateProducts({ryber,ref,iif,env,tap})
-                }
-            ),
-            take(1)
-        )
-        .subscribe()
+                    },
+                    (err:HttpErrorResponse)=>{
+                        populateProducts({ryber,ref,iif,env,tap})
+                    }
+                ),
+                take(1)
+            )
+            .subscribe()
+        }
         //
     }
 

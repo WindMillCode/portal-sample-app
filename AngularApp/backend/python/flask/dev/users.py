@@ -5,10 +5,11 @@ from my_util import GUID
 class User(db.Model):
     user = db.Column(db.String(200), primary_key=True)
     myPass = db.Column(db.String(200),unique=True, nullable=False)
-    billing = db.Column(db.String(20000))
-    shipping = db.Column(db.String(2000))
+    billing = db.Column(db.String())
+    shipping = db.Column(db.String())
     shipping_same_as_billing = db.Column(db.Boolean)
     cartId = db.Column(GUID(), nullable=True)
+    orderId = db.Column(GUID(), nullable=True)
 
     def __init__ (self, user, myPass, billing, shipping, shipping_same_as_billing):
         self.user = user
@@ -19,16 +20,23 @@ class User(db.Model):
 
 
     def any(self):
-        return '<user user = {} ,myPass ={}, billing={}, shipping={}, shipping_same_as_billing={},>'.format(self.user, self.myPass, self.billing, self.shipping, self.shipping_same_as_billing)
+        return '<user user = {} ,myPass ={}, billing={}, shipping={}, shipping_same_as_billing={}, cartId={}, orderId={}>'.format(
+            self.user,
+            self.myPass,
+            self.billing,
+            self.shipping,
+            self.shipping_same_as_billing,
+            self.cartId,
+            self.orderId
+        )
+
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('user', 'myPass','billing', 'shipping', 'shipping_same_as_billing')
+        fields = ('user','myPass','billing', 'shipping', 'shipping_same_as_billing','cartId','orderId')
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
-
-
 
 
 @app.route('/users/create',methods=['PUT'])
@@ -80,19 +88,16 @@ def update_user():
     user = data['user']
     update_body = data['update_body']
     update_user_class = User.query.filter_by(user=user).first()
-    pprint.pprint(update_user_class)
+
     if update_user_class is None:
         return {
             'message':{'message':'User not found'},
         },404
     user_to_update = user_schema.dump(update_user_class)
+    pprint.pprint(user_to_update)
     user_to_update["billing"] =  json.loads(user_to_update["billing"])
     user_to_update["shipping"] = json.loads(user_to_update["shipping"])
-
-
-
     user_to_update =  my_util.update_target(user_to_update,update_body)
-
 
 
     update_user_class.user = user_to_update["user"]
@@ -115,6 +120,10 @@ def update_user():
 def delete_user():
     data = request.json['data']
     user = User.query.filter_by(user=data['user']).first()
+    if user is None:
+        return {
+            'message':{'message':'NOT FOUND'}
+        },404
     db.session.delete(user)
     db.session.commit()
     return {
@@ -126,12 +135,14 @@ def delete_user():
 def list_users():
     # if admin requests then supply, you dont want this on the backend
 
-    users = User.query.all()
+    users = users_schema.jsonify(User.query.all()).json
     users = [ {
-        'user':x.user,
-        'myPass':x.myPass,
-        'billing':json.loads(x.billing),
-        'shipping':json.loads(x.shipping),
+        # 'user':x.user,
+        # 'myPass':x.myPass,
+        **x,
+        'billing':json.loads (x['billing']),
+        'shipping':json.loads(x['shipping']),
+        # 'shipping_same_as_billing':x.shipping_same_as_billing,
     } for x in users]
     # users = users_schema.jsonify(users)
     return{
