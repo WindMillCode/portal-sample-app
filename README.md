@@ -117,6 +117,11 @@ refer to README.md in ignore
 <!-- to navigate through the website the user does what  -->
 <!-- also include sub labels for each part of nav -->
 
+### Loading of products
+* handled in AngularApp\src\app\shop\main\main.component.ts
+
+
+
 # Aspects
 
 ## Challenges

@@ -64,13 +64,14 @@ of({})
             delay(500),
             tap(()=>{
                 ryber.router.navigateByUrl("/create-acct")
-            })
+            }),
         )
     }),
     exhaustMap(()=>{
         let counter = 0
         return of({})
         .pipe(
+
             delay(1000),
             tap(()=>{
                 ryber.router.navigateByUrl("/shop")
@@ -86,10 +87,14 @@ of({})
             tap(()=>{
                 Array(Math.floor(Math.random()*5)).fill(null)
                 .forEach((x:any,i)=>{
-                    eventDispatcher({
-                        element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
-                        event:"click"
-                    })
+
+                    try{
+                        eventDispatcher({
+                            element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
+                            event:"click"
+                        })
+                    }
+                    catch(e){}
                 })
                 counter++;
             }),

@@ -188,11 +188,14 @@ export class MainComponent implements OnInit {
                             return result
                         })
                         ref.detectChanges()
+                        console.log(ryber.store.products.items)
                         //
 
                     },
                     (err:HttpErrorResponse)=>{
+                        console.log(err)
                         populateProducts({ryber,ref,iif,env,tap})
+
                     }
                 ),
                 take(1)

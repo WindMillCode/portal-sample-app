@@ -74,17 +74,20 @@ export class AppComponent {
                         }),
                         delay(500),
                         tap(()=>{
+                            // [true,false][Math.random()*2|0] ?  window.location.reload() : null
                             ryber.router.navigateByUrl("/create-acct")
                         }),
-                        repeat(3)
+
                     )
                 }),
                 exhaustMap(()=>{
                     let counter = 0
                     return of({})
                     .pipe(
-                        delay(3000),
+
+                        delay(1000),
                         tap(()=>{
+
                             ryber.router.navigateByUrl("/shop")
                         }),
                         delay(500),
@@ -98,10 +101,14 @@ export class AppComponent {
                         tap(()=>{
                             Array(Math.floor(Math.random()*5)).fill(null)
                             .forEach((x:any,i)=>{
-                                eventDispatcher({
-                                    element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
-                                    event:"click"
-                                })
+
+                                try{
+                                    eventDispatcher({
+                                        element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
+                                        event:"click"
+                                    })
+                                }
+                                catch(e){}
                             })
                             counter++;
                         }),
@@ -161,6 +168,10 @@ export class AppComponent {
                         event:"click"
                     })
                 }),
+                delay(3000),
+                tap(()=>{
+                    // window.location.reload()
+                })
             )
             .subscribe()
         }

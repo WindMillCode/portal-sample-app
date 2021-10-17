@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Event, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { iif, of } from 'rxjs';
-import { delay,tap } from 'rxjs/operators';
+import { delay,exhaustMap,tap } from 'rxjs/operators';
 import { cartCreate, mediaPrefix,RyberStore,RyberProductsItems } from './customExports';
 import { environment as env } from 'src/environments/environment';
 
@@ -252,7 +252,7 @@ export class RyberService {
                                 checked:shipping.sameAsBilling.checked
                             }
                         }
-                        let myAcctCurrent = {
+                        let myAcctCurrent:any = {
                             user:acctCurrent?.user || "guest",
                             myPass:acctCurrent?.pass,
                             billing:myBilling,
@@ -265,20 +265,56 @@ export class RyberService {
                         )
 
                         // XHR to backend
+
+                            // get the orderId array
+
+
                             // create an order
-                            http.put(
-                                `${env.backend.url}/order/create`,
+                            let userOrderIds;
+                            http.post(
+                                `${env.backend.url}/users/read`,
                                 {
                                     data:{
-                                        user:acctCurrent?.user || "guest",
-                                        cart:myCartItems,
-                                        billing:myBilling,
-                                        shipping:myShipping,
-                                        total:cartTotal.value()
+                                        'user':acctCurrent?.user,
+                                        'pass':acctCurrent?.pass,
+                                        'filter':['orderId']
                                     }
                                 }
                             )
                             .pipe(
+                                
+                                exhaustMap((result:any)=>{
+                                    userOrderIds = result.message.data.orderId
+                                    return http.put(
+                                        `${env.backend.url}/order/create`,
+                                        {
+                                            data:{
+                                                user:acctCurrent?.user || "guest",
+                                                cart:myCartItems,
+                                                billing:myBilling,
+                                                shipping:myShipping,
+                                                total:cartTotal.value()
+                                            }
+                                        }
+                                    )
+                                }),
+                                exhaustMap((result:any)=>{
+                                    userOrderIds.push(result.message.orderId)
+                                    myAcctCurrent.orderId = userOrderIds
+                                    return http.patch(
+                                        `${env.backend.url}/users/update`,
+                                        {
+                                            data:{
+                                                user:acctCurrent?.user,
+                                                myPass:acctCurrent?.pass,
+                                                update_body:myAcctCurrent
+                                            }
+                                        }
+                                    )
+                                    .pipe(
+                                        tap(console.log,console.error)
+                                    )
+                                }),
                                 tap(console.log,console.error)
                             )
                             .subscribe()
