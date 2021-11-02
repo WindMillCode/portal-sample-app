@@ -52,8 +52,8 @@ def after_request(response):
 
 if __name__ == "__main__":
     port = 5000
-    public_url = ngrok.connect(port).public_url
-    print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}\"".format(public_url, port))
-    app.config["BASE_URL"] = public_url
+    # public_url = ngrok.connect(port).public_url
+    # print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}\"".format(public_url, port))
+    # app.config["BASE_URL"] = public_url
     app.run(debug=True)
 

@@ -127,7 +127,7 @@ def update_user():
 
 @app.route('/users/adminUpdate',methods=['PATCH'])
 def admin_update_user():
-    # needs authentication before update
+    # needs admin authentication before update
     data = request.json["data"]
     user = data['user']
     update_body = data['update_body']

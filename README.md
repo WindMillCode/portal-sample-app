@@ -9,7 +9,7 @@ Only members of the project can read the README.md from the ignore folder
 # Stack 
 
 ## Frontend
-* Angular v12.2.3
+* Angular v12.2.12
 ## Backend
 * python v3.9.6
 * tornado v 6.1.0
@@ -31,6 +31,9 @@ Only members of the project can read the README.md from the ignore folder
 * puffing billy v2.4.1
 
 ## Hosting
+* backend - 
+    * url - portal-customer-backend
+
 
 ### CMS
 

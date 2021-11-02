@@ -167,6 +167,21 @@ def delete_order():
             'message':{'message':'DELETED'}
         },200
 
+@app.route('/order/adminDelete',methods=['DELETE'])
+def admin_delete_order():
+    data = request.json['data']
+    order = Order.query.filter_by(orderId=data['orderId']).first()
+    if order is None:
+        return {
+            'message':{'message':'NOT FOUND'}
+        },404
+    else:
+        db.session.delete(order)
+        db.session.commit()
+        return {
+            'message':{'message':'DELETED'}
+        },200
+
 @app.route('/order/list',methods=['POST'])
 def list_orders():
 
