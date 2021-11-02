@@ -10,6 +10,7 @@
         <input
         [value]="item.value"
         (blur)="item.blur($event)"
+        (focusout)="item.focusout($event)"
         [class]= "prefix.pods[0]({val:'Input0'})"
         [placeholder]="item.placeholder"
         *ngFor="let item of ryber.store.accounts.login.ui.items"

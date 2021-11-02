@@ -6,10 +6,14 @@
     >CREATE ACCOUNT</h1>
     <section
     [class]= "prefix.pods[0]({val:''})"
+
+
     >
         <input
+        tabindex="0"
         [value]="item.value"
         (blur)="item.blur($event)"
+        (focusout)="item.focusout($event)"
         [class]= "prefix.pods[0]({val:'Input0'})"
         [placeholder]="item.placeholder"
         *ngFor="let item of ryber.store.accounts.ui.items"

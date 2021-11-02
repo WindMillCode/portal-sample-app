@@ -9,7 +9,7 @@ Only members of the project can read the README.md from the ignore folder
 # Stack 
 
 ## Frontend
-* Angular v12.2.3
+* Angular v12.2.12
 ## Backend
 * python v3.9.7
 * flask 2.0.1
@@ -34,6 +34,9 @@ Only members of the project can read the README.md from the ignore folder
 * puffing billy v2.4.1
 
 ## Hosting
+* backend - 
+    * url - portal-customer-backend
+
 
 ### CMS
 
@@ -73,9 +76,9 @@ nested Loops
 part 1 
 [UPDATE] - any bug free updates
 [PATCH]  - any partial fixes that invovles tradeoffs
-[STITCH] - any partial fixes that has issues to address
+[BROKEN] - any partial fixes that has issues to address
 [FIX]    - meaninfgul complete fixes
-
+[COMPLEX MERGE] - do not pull from here complex merging took place
 
 part 2
 {frontend} {backend} {CI/CD} {testing} {logging}
@@ -119,6 +122,11 @@ refer to README.md in ignore
 
 <!-- to navigate through the website the user does what  -->
 <!-- also include sub labels for each part of nav -->
+
+### Loading of products
+* handled in AngularApp\src\app\shop\main\main.component.ts
+
+
 
 # Aspects
 
@@ -169,6 +177,24 @@ Session 5 (Logging)
 
 ## Snippets
 * general snippets found in planning in the trello workspace
+
+* update user billing and shipping
+```ts
+    http.patch(
+        `${env.backend.url}/users/update`,
+        {
+            data:{
+                user:acctCurrent?.user,
+                myPass:acctCurrent?.pass,
+                update_body:myAcctCurrent
+            }
+        }
+    )
+    .pipe(
+        tap(console.log,console.error)
+    )
+    .subscribe()
+```
 
 ## Media 
 

@@ -15,7 +15,8 @@ from flask_marshmallow import Marshmallow
 import pprint
 import json
 import my_util
-
+import requests
+import time
 
 app = Flask(__name__)
 app.config.update(
@@ -28,9 +29,16 @@ db=SQLAlchemy(app)
 ma = Marshmallow(app)
 import users
 import cart
+import products
+import orders
+import my_init
 #
 
 db.create_all()
+my_init.init_products()
+my_init.init_orders()
+my_init.init_users()
+
 
 
 @app.after_request
@@ -44,7 +52,8 @@ def after_request(response):
 
 if __name__ == "__main__":
     port = 5000
-    public_url = ngrok.connect(port).public_url
-    print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}\"".format(public_url, port))
-    app.config["BASE_URL"] = public_url
+    # public_url = ngrok.connect(port).public_url
+    # print(" * ngrok tunnel \"{}\" -> \"http://127.0.0.1:{}\"".format(public_url, port))
+    # app.config["BASE_URL"] = public_url
     app.run(debug=True)
+

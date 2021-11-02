@@ -10,6 +10,7 @@
             <h2>BILLING ADDRESS</h2>
             <input
             (blur)="item.value.blur($event)"
+            (focusout)="item.value.focusout($event)"
             [value]="item.value.value"
             [class]= "prefix.pods[0]({val:'Input0'})"
             *ngFor="let item of ryber.store.checkout.billing.items | keyvalue"

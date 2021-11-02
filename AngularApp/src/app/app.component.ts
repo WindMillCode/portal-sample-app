@@ -2,8 +2,8 @@ import { ChangeDetectorRef,ChangeDetectionStrategy, Component,ViewContainerRef }
 import { RyberService } from './ryber.service';
 import { environment as env } from 'src/environments/environment';
 import {Route} from '@angular/router';
-import { eventDispatcher,numberParse } from './customExports';
-import { of,Subscription,fromEvent } from 'rxjs';
+import { eventDispatcher,numberParse,mediaPrefix,RyberProductsItems } from './customExports';
+import { of,Subscription,fromEvent,iif } from 'rxjs';
 import { delay,tap,repeat ,concatMap, exhaust, exhaustMap} from 'rxjs/operators';
 import faker from 'faker';
 
@@ -74,16 +74,20 @@ export class AppComponent {
                         }),
                         delay(500),
                         tap(()=>{
+                            // [true,false][Math.random()*2|0] ?  window.location.reload() : null
                             ryber.router.navigateByUrl("/create-acct")
-                        })
+                        }),
+
                     )
                 }),
                 exhaustMap(()=>{
                     let counter = 0
                     return of({})
                     .pipe(
+
                         delay(1000),
                         tap(()=>{
+
                             ryber.router.navigateByUrl("/shop")
                         }),
                         delay(500),
@@ -97,10 +101,14 @@ export class AppComponent {
                         tap(()=>{
                             Array(Math.floor(Math.random()*5)).fill(null)
                             .forEach((x:any,i)=>{
-                                eventDispatcher({
-                                    element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
-                                    event:"click"
-                                })
+
+                                try{
+                                    eventDispatcher({
+                                        element:document.querySelectorAll(".a_p_p_CartPod0Button1")[counter] as HTMLElement,
+                                        event:"click"
+                                    })
+                                }
+                                catch(e){}
                             })
                             counter++;
                         }),
@@ -160,6 +168,10 @@ export class AppComponent {
                         event:"click"
                     })
                 }),
+                delay(3000),
+                tap(()=>{
+                    // window.location.reload()
+                })
             )
             .subscribe()
         }

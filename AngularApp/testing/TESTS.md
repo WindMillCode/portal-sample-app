@@ -20,6 +20,11 @@
 * test that on checkout the user account object gets updated properly
 >>>>>>> michael-dev
 
+## Backend
+
+### resource delete
+* test when you delete a resource in the database, all relative info update, say if a order is deleted for a user, the users orders will also be deleted
+
 # Unit Tests
 
 # Integration Tests
