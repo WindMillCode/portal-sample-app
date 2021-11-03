@@ -12,16 +12,16 @@ def init_products():
             db.session.add(Product(
                 ["QR Code 1","QR Code 2","NFT 1", "NFT 2","T-shirt 1","T shirt 2","T -shirt 3"][i],
                 [
-                    "./assets/media/shop_1.png",
-                    "./assets/media/shop_1.png",
-                    "./assets/media/shop_0.jpg",
-                    "./assets/media/shop_0.jpg",
-                    "./assets/media/shop_2.jpg",
-                    "./assets/media/shop_3.jpg",
-                    "./assets/media/shop_4.jpg"
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_1_w7tsfg.png",
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_1_w7tsfg.png",
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_0_ittglx.jpg",
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_0_ittglx.jpg",
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_2_pjlwsz.jpg",
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_3_xkexu6.jpg",
+                    "https://res.cloudinary.com/windmillcode/image/upload/v1635771286/products/shop_4_j3s13w.jpg"
                 ][i],
                 [29.99,29.99,54.99,54.99,22.99,25.99,22.99][i],
-                1,
+                [41,55,63,12,102,32,43][i],
                 "Simple Merch"
             )) for i,x in enumerate(range(0,7))
         ]
