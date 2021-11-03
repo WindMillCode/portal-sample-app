@@ -1,4 +1,4 @@
-from __main__ import app,db,ma,request,pprint,json,my_util
+from prod_app import app,db,ma,request,pprint,json,my_util
 from my_util import GUID
 
 
