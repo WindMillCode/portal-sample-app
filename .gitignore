@@ -56,7 +56,7 @@ AngularApp/misc/*.mp4*
 amplify/
 __pycache__/
 *.pyc
-*test.db.sqlite*
+# *test.db.sqlite*
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
