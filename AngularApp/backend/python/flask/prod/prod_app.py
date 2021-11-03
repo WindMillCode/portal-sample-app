@@ -7,7 +7,7 @@ elif sys.platform =="linux":
 
 from flask import Flask, request, redirect
 from pyngrok import ngrok
-
+import os
 # dev additions
 import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -43,7 +43,7 @@ my_init.init_users()
 
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Origin', os.environ.get("FRONTEND_ORIGIN"))
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH')
   return response
